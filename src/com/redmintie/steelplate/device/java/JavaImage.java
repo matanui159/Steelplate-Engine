@@ -23,6 +23,7 @@ public class JavaImage extends Image {
 			g.drawImage(image, 0, 0, null);
 			g.dispose();
 		}
+		this.image.setAccelerationPriority(0.9f);
 	}
 	public BufferedImage getImage() {
 		return image;
@@ -38,5 +39,8 @@ public class JavaImage extends Image {
 	@Override
 	public Canvas getCanvas() {
 		return new JavaCanvas(image.getGraphics());
+	}
+	@Override
+	public void destroy() {
 	}
 }

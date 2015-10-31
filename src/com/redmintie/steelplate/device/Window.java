@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
 
+import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.core.Sound;
 import com.redmintie.steelplate.input.Keyboard;
 import com.redmintie.steelplate.render.Canvas;
@@ -13,6 +14,7 @@ import com.redmintie.steelplate.render.Image;
 
 public abstract class Window implements Device {
 	private long time = -1;
+	private Image background;
 	public void drawLogo(Canvas canvas) {
 		canvas.setColor(236, 240, 241);
 		canvas.clear();
@@ -28,6 +30,9 @@ public abstract class Window implements Device {
 			ex.printStackTrace();
 		}
 	}
+	public abstract int getType();
+	public abstract void begin();
+	public abstract void loop();
 	public double getDelta() {
 		if (time == -1) {
 			time = System.currentTimeMillis();
@@ -36,17 +41,29 @@ public abstract class Window implements Device {
 		time = System.currentTimeMillis();
 		return delta;
 	}
-	public abstract int getType();
-	public abstract void begin();
-	public abstract void loop();
+	public void draw(Canvas canvas) {
+		if (background == null) {
+			Game.getGameInstance().draw(canvas);
+		} else {
+			Game.getGameInstance().draw(background.getCanvas());
+			canvas.drawImage(background);
+		}
+	}
 	public abstract void end();
 	public abstract void setTitle(String title);
 	public abstract void setIcon(BufferedImage icon);
 	public abstract void setSize(int width, int height);
 	public abstract int getWidth();
 	public abstract int getHeight();
+	public void keepBackground(boolean keep) {
+		if (background != null) {
+			background.destroy();
+		}
+		background = keep ? createImage(getWidth(), getHeight()) : null;
+	}
 	public abstract Keyboard getKeyboard();
 	public abstract Image loadImage(BufferedImage image);
+	public abstract Image createImage(int width, int height);
 	public abstract Font loadFont(java.awt.Font font);
 	public abstract Sound loadSound(AudioInputStream input) throws IOException;
 }

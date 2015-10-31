@@ -2,6 +2,8 @@ package com.redmintie.steelplate.device.java;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
+import java.awt.Transparency;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
@@ -87,12 +89,21 @@ public class JavaWindow extends Window {
 		return panel.getHeight();
 	}
 	@Override
+	public void keepBackground(boolean keep) {
+	}
+	@Override
 	public Keyboard getKeyboard() {
 		return new JavaKeyboard(frame);
 	}
 	@Override
 	public Image loadImage(BufferedImage image) {
 		return new JavaImage(image);
+	}
+	@Override
+	public Image createImage(int width, int height) {
+		return new JavaImage(GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getDefaultScreenDevice().getDefaultConfiguration()
+				.createCompatibleImage(width, height, Transparency.TRANSLUCENT));
 	}
 	@Override
 	public Font loadFont(java.awt.Font font) {

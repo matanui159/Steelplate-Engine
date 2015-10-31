@@ -28,12 +28,18 @@ public class JavaCanvas extends Canvas {
 	@Override
 	public void setColor(Color color) {
 		super.setColor(color);
-		g.setColor(new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()));
+		java.awt.Color c = new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+		g.setColor(c);
+		g.setBackground(c);
 	}
 	@Override
 	public void clear() {
 		Game game = Game.getGameInstance();
-		g.fillRect(0, 0, game.getWidth(), game.getHeight());
+		if (game.isBackgroundKept()) {
+			g.fillRect(0, 0, game.getWidth(), game.getHeight());
+		} else {
+			g.clearRect(0, 0, game.getWidth(), game.getHeight());
+		}
 	}
 	@Override
 	public void drawImage(Image image, double x, double y, double width, double height) {

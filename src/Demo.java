@@ -1,5 +1,7 @@
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.input.Keyboard;
+import com.redmintie.steelplate.input.event.KeyAdapter;
+import com.redmintie.steelplate.input.event.KeyEvent;
 import com.redmintie.steelplate.math.Point;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
@@ -19,11 +21,19 @@ public class Demo extends Game {
 	@Override
 	public void init() {
 		try {
-			player = Image.loadImage("spaceshooter/PNG/playerShip1_red.png");
+			player = Image.loadImage("res/player.png");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			close();
 		}
+		Keyboard.getKeyboard().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKey() == Keyboard.KEY_SPACE) {
+					keepBackground(!isBackgroundKept());
+				}
+			}
+		});
 	}
 	@Override
 	public void update(double delta) {
@@ -42,7 +52,7 @@ public class Demo extends Game {
 	}
 	@Override
 	public void draw(Canvas canvas) {
-		canvas.setColor(new Color(0, 0, 0, 255));
+		canvas.setColor(new Color(0, 0, 0, 30));
 		canvas.clear();
 		
 		canvas.translate(pos.getX(), pos.getY());

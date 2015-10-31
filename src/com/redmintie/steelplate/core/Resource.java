@@ -5,15 +5,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
+import com.redmintie.quickdata.QuickDataFile;
 import com.redmintie.steelplate.device.Device;
 
-public class Core {
+public class Resource {
+	private static QuickDataFile data;
 	public static InputStream getResourceAsStream(String name) throws IOException {
-		InputStream stream = Core.class.getResourceAsStream("/" + name);
+		InputStream stream = Resource.class.getResourceAsStream("/" + name);
 		if (stream == null) {
 			stream = new FileInputStream(name);
 		}
 		return stream;
+	}
+	public static QuickDataFile loadData() throws IOException {
+		if (data == null) {
+			data = new QuickDataFile(".data.qdt");
+			if (System.getProperty("os.name").toLowerCase().contains("win")) {
+				Runtime.getRuntime().exec("attrib +H .data.qdt");
+			}
+		}
+		return data;
 	}
 	public static Device loadDevice(Game game, String list) {
 		Scanner scanner = null;

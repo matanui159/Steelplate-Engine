@@ -21,12 +21,13 @@ public abstract class Game {
 	}
 	private Window window;
 	private String title;
+	private boolean keep;
 	public Game() {
 		if (instance != null) {
 			throw new RuntimeException("There can only be one game instance.");
 		}
 		
-		window = (Window)Core.loadDevice(this, "com/redmintie/steelplate/res/devices/windowDevices.list");
+		window = (Window)Resource.loadDevice(this, "com/redmintie/steelplate/res/devices/windowDevices.list");
 		window.setTitle("Steelplate Game");
 		window.setSize(1024, 512);
 		instance = this;
@@ -60,7 +61,7 @@ public abstract class Game {
 		return title;
 	}
 	public void setIcon(String icon) throws IOException {
-		window.setIcon(ImageIO.read(Core.getResourceAsStream(icon)));
+		window.setIcon(ImageIO.read(Resource.getResourceAsStream(icon)));
 	}
 	public void setSize(int width, int height) {
 		window.setSize(width, height);
@@ -70,5 +71,11 @@ public abstract class Game {
 	}
 	public int getHeight() {
 		return window.getHeight();
+	}
+	public void keepBackground(boolean keep) {
+		window.keepBackground(this.keep = keep);
+	}
+	public boolean isBackgroundKept() {
+		return keep;
 	}
 }

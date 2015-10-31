@@ -4,7 +4,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.util.HashMap;
 
-import com.redmintie.steelplate.core.Core;
+import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.core.Game;
 
 public abstract class Font {
@@ -20,7 +20,7 @@ public abstract class Font {
 			java.awt.Font font;
 			try {
 				font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,
-						Core.getResourceAsStream(family)).deriveFont(style, size);
+						Resource.getResourceAsStream(family)).deriveFont(style, size);
 			} catch (IOException|FontFormatException ex) {
 				font = new java.awt.Font(family, style, size);
 			}

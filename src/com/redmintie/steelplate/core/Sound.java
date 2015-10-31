@@ -12,7 +12,7 @@ public abstract class Sound {
 	public static Sound loadSound(String name) throws IOException, UnsupportedAudioFileException {
 		if (!sounds.containsKey(name)) {
 			sounds.put(name, Game.getGameInstance().getWindow().loadSound(
-					AudioSystem.getAudioInputStream(new BufferedInputStream(Core.getResourceAsStream(name)))));
+					AudioSystem.getAudioInputStream(new BufferedInputStream(Resource.getResourceAsStream(name)))));
 		}
 		return sounds.get(name);
 	}
