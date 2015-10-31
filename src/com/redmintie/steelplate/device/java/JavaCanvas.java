@@ -65,11 +65,12 @@ public class JavaCanvas extends Canvas {
 	}
 	@Override
 	public void pushMatrix() {
-		if (current + 1 == stack.size()) {
+		current++;
+		if (current == stack.size()) {
 			stack.add(new AffineTransform());
 		}
-		stack.get(current + 1).setTransform(stack.get(current));
-		g.setTransform(stack.get(++current));
+		stack.get(current).setTransform(stack.get(current - 1));
+		g.setTransform(stack.get(current));
 	}
 	@Override
 	public void popMatrix() {
