@@ -5,13 +5,14 @@ import com.redmintie.steelplate.input.event.KeyEvent;
 import com.redmintie.steelplate.math.Point;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
-import com.redmintie.steelplate.render.Image;
+import com.redmintie.steelplate.render.Spritesheet;
 
 public class Demo extends Game {
 	public static void main(String[] args) {
 		new Demo();
 	}
-	private Image player;
+	private Spritesheet sprites;
+	private static final String PLAYER = "playerShip1_red.png";
 	private Point pos = new Point(getWidth() / 2, getHeight() / 2);
 	private double angle;
 	public Demo() {
@@ -21,7 +22,7 @@ public class Demo extends Game {
 	@Override
 	public void init() {
 		try {
-			player = Image.loadImage("res/player.png");
+			sprites = new Spritesheet("res/sheet.xml");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			close();
@@ -57,9 +58,9 @@ public class Demo extends Game {
 		
 		canvas.translate(pos.getX(), pos.getY());
 		canvas.rotate(angle);
-		canvas.translate(-player.getWidth() / 2, -player.getHeight() / 2);
+		canvas.translate(-sprites.getSpriteWidth(PLAYER) / 2, -sprites.getSpriteHeight(PLAYER) / 2);
 		
-		canvas.drawImage(player);
+		sprites.drawSprite(canvas, PLAYER);
 	}
 	@Override
 	public void close() {

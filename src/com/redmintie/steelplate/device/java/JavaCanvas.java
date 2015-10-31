@@ -42,8 +42,11 @@ public class JavaCanvas extends Canvas {
 		}
 	}
 	@Override
-	public void drawImage(Image image, double x, double y, double width, double height) {
-		g.drawImage(((JavaImage)image).getImage(), (int)x, (int)y, (int)width, (int)height, null);
+	public void drawImage(Image image, double sx, double sy, double sw, double sh,
+			double dx, double dy, double dw, double dh) {
+		g.drawImage(((JavaImage)image).getImage(),
+				(int)dx, (int)dy, (int)(dx + dw), (int)(dy + dh),
+				(int)sx, (int)sy, (int)(sx + sw), (int)(sy + sh), null);
 	}
 	@Override
 	public void setFont(Font font) {

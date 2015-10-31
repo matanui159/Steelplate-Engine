@@ -16,12 +16,16 @@ public abstract class Canvas {
 		return color;
 	}
 	public abstract void clear();
-	public abstract void drawImage(Image image, double x, double y, double width, double height);
+	public abstract void drawImage(Image image, double sx, double sy, double sw, double sh,
+			double dx, double dy, double dw, double dh);
+	public void drawImage(Image image, double x, double y, double width, double height) {
+		drawImage(image, 0, 0, image.getWidth(), image.getHeight(), x, y, width, height);
+	}
 	public void drawImage(Image image, double x, double y) {
-		drawImage(image, x, y, image.getWidth(), image.getHeight());
+		drawImage(image, 0, 0, image.getWidth(), image.getHeight(), x, y, image.getWidth(), image.getHeight());
 	}
 	public void drawImage(Image image) {
-		drawImage(image, 0, 0, image.getWidth(), image.getHeight());
+		drawImage(image, 0, 0, image.getWidth(), image.getHeight(), 0, 0, image.getWidth(), image.getHeight());
 	}
 	public void setFont(Font font) {
 		this.font = font;
