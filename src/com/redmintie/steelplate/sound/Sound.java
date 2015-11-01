@@ -1,4 +1,4 @@
-package com.redmintie.steelplate.core;
+package com.redmintie.steelplate.sound;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -6,6 +6,9 @@ import java.util.HashMap;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import com.redmintie.steelplate.core.Game;
+import com.redmintie.steelplate.core.Resource;
 
 public abstract class Sound {
 	private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();

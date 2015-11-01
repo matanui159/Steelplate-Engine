@@ -6,11 +6,11 @@ import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 
 import com.redmintie.steelplate.core.Game;
-import com.redmintie.steelplate.core.Sound;
 import com.redmintie.steelplate.input.Keyboard;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
+import com.redmintie.steelplate.sound.Sound;
 
 public abstract class Window implements Device {
 	private long time = -1;

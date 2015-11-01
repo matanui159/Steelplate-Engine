@@ -8,7 +8,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 
-import com.redmintie.steelplate.core.Sound;
+import com.redmintie.steelplate.sound.Sound;
 
 public class JavaSound extends Sound {
 	private Clip clip;
