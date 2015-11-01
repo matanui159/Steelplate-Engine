@@ -2,7 +2,7 @@ package com.redmintie.steelplate.render;
 
 public abstract class Canvas {
 	protected Color color = new Color(255, 255, 255, 255);
-	protected double alpha;
+	protected int alpha;
 	protected Font font = Font.loadFont("Arial", Font.PLAIN, 16);
 	public void setColor(Color color) {
 		this.color = color;
@@ -16,10 +16,10 @@ public abstract class Canvas {
 	public Color getColor() {
 		return color;
 	}
-	public void setAlpha(double alpha) {
+	public void setAlpha(int alpha) {
 		this.alpha = alpha;
 	}
-	public double getAlpha() {
+	public int getAlpha() {
 		return alpha;
 	}
 	public abstract void clear();

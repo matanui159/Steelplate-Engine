@@ -34,9 +34,9 @@ public class JavaCanvas extends Canvas {
 		g.setBackground(c);
 	}
 	@Override
-	public void setAlpha(double alpha) {
+	public void setAlpha(int alpha) {
 		super.setAlpha(alpha);
-		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)alpha));
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha / 255f));
 	}
 	@Override
 	public void clear() {
