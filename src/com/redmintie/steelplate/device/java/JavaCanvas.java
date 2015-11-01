@@ -1,5 +1,6 @@
 package com.redmintie.steelplate.device.java;
 
+import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -31,6 +32,11 @@ public class JavaCanvas extends Canvas {
 		java.awt.Color c = new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 		g.setColor(c);
 		g.setBackground(c);
+	}
+	@Override
+	public void setAlpha(double alpha) {
+		super.setAlpha(alpha);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)alpha));
 	}
 	@Override
 	public void clear() {
