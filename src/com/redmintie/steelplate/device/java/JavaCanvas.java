@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
+import java.util.Stack;
 
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.render.Canvas;
@@ -14,8 +14,8 @@ import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
 
 public class JavaCanvas extends Canvas {
-	private ArrayList<AffineTransform> stack = new ArrayList<AffineTransform>();
-	private int current = 0;
+	private AffineTransform reset = new AffineTransform();
+	private Stack<AffineTransform> stack = new Stack<AffineTransform>();
 	private Graphics2D g;
 	private int ascent;
 	public JavaCanvas(Graphics g) {
@@ -67,21 +67,18 @@ public class JavaCanvas extends Canvas {
 	}
 	@Override
 	public void resetMatrix() {
-		stack.get(current).setToIdentity();
+		g.setTransform(reset);
 	}
 	@Override
 	public void pushMatrix() {
-		current++;
-		if (current == stack.size()) {
-			stack.add(new AffineTransform());
-		}
-		stack.get(current).setTransform(stack.get(current - 1));
-		g.setTransform(stack.get(current));
+		AffineTransform transform = new AffineTransform();
+		transform.setTransform(g.getTransform());
+		stack.push(transform);
 	}
 	@Override
 	public void popMatrix() {
-		if (current > 0) {
-			g.setTransform(stack.get(--current));
+		if (!stack.empty()) {
+			g.setTransform(stack.pop());
 		}
 	}
 	@Override

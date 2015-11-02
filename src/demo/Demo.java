@@ -17,10 +17,9 @@ public class Demo extends Game {
 	}
 	
 	private double time;
-	private Image background;
 	
-	private Image buffer1;
-	private Image buffer2;
+	private Image old;
+	private Image current;
 	private Color clear = new Color(0, 0, 0, 0);
 	
 	private Player player;
@@ -28,9 +27,9 @@ public class Demo extends Game {
 	@Override
 	public void init() {
 		try {
-			background = Image.loadImage("res/images/background.png");
-			buffer1 = Image.createImage(getWidth(), getHeight());
-			buffer2 = Image.createImage(getWidth(), getHeight());
+			Res.init();
+			old = Image.createImage(getWidth(), getHeight());
+			current = Image.createImage(getWidth(), getHeight());
 			player = new Player();
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -44,12 +43,12 @@ public class Demo extends Game {
 			time -= 1;
 		}
 		
-		if (buffer1.getWidth() != getWidth() || buffer1.getHeight() != getHeight()) {
-			buffer1.destroy();
-			buffer2.destroy();
+		if (old.getWidth() != getWidth() || old.getHeight() != getHeight()) {
+			old.destroy();
+			current.destroy();
 			try {
-				buffer1 = Image.createImage(getWidth(), getHeight());
-				buffer2 = Image.createImage(getWidth(), getHeight());
+				old = Image.createImage(getWidth(), getHeight());
+				current = Image.createImage(getWidth(), getHeight());
 			} catch (IOException ex) {
 				ex.printStackTrace();
 				end();
@@ -60,24 +59,26 @@ public class Demo extends Game {
 	}
 	@Override
 	public void draw(Canvas canvas) {
-		for (int x = 0; x < (double)getWidth() / background.getWidth(); x++) {
-			for (int y = -1; y < (double)getHeight() / background.getHeight(); y++) {
-				canvas.drawImage(background, x * background.getWidth(), (y + time) * background.getHeight());
+		for (int x = 0; x < (double)getWidth() / Res.background.getWidth(); x++) {
+			for (int y = -1; y < (double)getHeight() / Res.background.getHeight(); y++) {
+				canvas.drawImage(Res.background,
+						x * Res.background.getWidth(),
+						(y + time) * Res.background.getHeight());
 			}
 		}
 		
-		Canvas c = buffer1.getCanvas();
+		Canvas c = current.getCanvas();
 		c.setColor(clear);
 		c.clear();
 		c.setAlpha(200);
-		c.drawImage(buffer2);
+		c.drawImage(old);
 		c.setAlpha(255);
 		player.draw(c);
-		canvas.drawImage(buffer1);
+		canvas.drawImage(current);
 		
-		Image buffer = buffer1;
-		buffer1 = buffer2;
-		buffer2 = buffer;
+		Image buffer = old;
+		old = current;
+		current = buffer;
 	}
 	@Override
 	public void close() {
