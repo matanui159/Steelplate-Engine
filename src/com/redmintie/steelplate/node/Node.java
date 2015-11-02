@@ -23,14 +23,14 @@ public class Node {
 		}
 	}
 	public void draw(Canvas canvas) {
-		canvas.pushMatrix();
 		canvas.translate(position.getX(), position.getY());
 		canvas.rotate(angle);
 		canvas.translate(-width / 2, -height / 2);
 		for (Node child : children) {
+			canvas.pushMatrix();
 			child.draw(canvas);
+			canvas.popMatrix();
 		}
-		canvas.popMatrix();
 	}
 	public void end() {
 		for (Node child : children) {
