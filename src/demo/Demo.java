@@ -38,7 +38,7 @@ public class Demo extends Game {
 	}
 	@Override
 	public void update(double delta) {
-		time += delta;
+		time += delta * 2;
 		while (time >= 1) {
 			time -= 1;
 		}
