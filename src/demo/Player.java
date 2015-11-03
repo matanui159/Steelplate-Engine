@@ -41,9 +41,15 @@ public class Player extends Node {
 		
 		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_LEFT)) {
 			position.add(-500 * delta, 0);
+			if (position.getX() < 0) {
+				position.setX(0);
+			}
 		}
 		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_RIGHT)) {
 			position.add(500 * delta, 0);
+			if (position.getX() > Game.getGameInstance().getWidth()) {
+				position.setX(Game.getGameInstance().getWidth());
+			}
 		}
 		for (Laser laser : lasers) {
 			laser.update(delta);
@@ -56,10 +62,10 @@ public class Player extends Node {
 	public void draw(Canvas canvas) {
 		for (Laser laser : lasers) {
 			laser.draw(canvas);
-			canvas.resetMatrix();
 		}
 		
 		super.draw(canvas);
 		canvas.drawImage(Res.player);
+		canvas.resetMatrix();
 	}
 }

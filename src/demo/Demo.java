@@ -7,6 +7,7 @@ import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
+import com.redmintie.steelplate.util.Array;
 
 public class Demo extends Game {
 	public static void main(String[] args) {
@@ -18,13 +19,16 @@ public class Demo extends Game {
 		begin();
 	}
 	
-	private double time;
+	private double bgTime;
 	
 	private Image old;
 	private Image current;
 	private Color clear = new Color(0, 0, 0, 0);
 	
 	private Player player;
+	
+	private double time;
+	private Array<Enemy> enemies = new Array<Enemy>();
 	
 	@Override
 	public void init() {
@@ -40,9 +44,9 @@ public class Demo extends Game {
 	}
 	@Override
 	public void update(double delta) {
-		time += delta * 2;
-		while (time >= 1) {
-			time -= 1;
+		bgTime += delta * 2;
+		while (bgTime >= 1) {
+			bgTime -= 1;
 		}
 		
 		if (old.getWidth() != getWidth() || old.getHeight() != getHeight()) {
@@ -58,6 +62,18 @@ public class Demo extends Game {
 		}
 		
 		player.update(delta);
+		
+		time += delta;
+		while (time >= 1) {
+			enemies.add(new Enemy());
+			time -= 1;
+		}
+		for (Enemy enemy : enemies) {
+			enemy.update(delta);
+			if (enemy.position.getY() > Game.getGameInstance().getHeight() + 100) {
+				enemies.remove(enemy);
+			}
+		}
 	}
 	@Override
 	public void draw(Canvas canvas) {
@@ -65,7 +81,7 @@ public class Demo extends Game {
 			for (int y = -1; y < (double)getHeight() / Res.background.getHeight(); y++) {
 				canvas.drawImage(Res.background,
 						x * Res.background.getWidth(),
-						(y + time) * Res.background.getHeight());
+						(y + bgTime) * Res.background.getHeight());
 			}
 		}
 		
@@ -75,9 +91,14 @@ public class Demo extends Game {
 		c.setAlpha(200);
 		c.drawImage(old);
 		c.setAlpha(255);
-		player.draw(c);
-		canvas.drawImage(current);
 		
+		player.draw(c);
+		
+		for (Enemy enemy : enemies) {
+			enemy.draw(c);
+		}
+		
+		canvas.drawImage(current);
 		Image buffer = old;
 		old = current;
 		current = buffer;

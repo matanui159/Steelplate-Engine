@@ -13,11 +13,12 @@ public class Enemy extends Node {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
-		position.add(0, 500);
+		position.add(0, 300 * delta);
 	}
 	@Override
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 		canvas.drawImage(Res.enemy);
+		canvas.resetMatrix();
 	}
 }

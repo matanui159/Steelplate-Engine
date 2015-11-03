@@ -28,5 +28,6 @@ public class Laser extends Node {
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 		canvas.drawImage(Res.laser);
+		canvas.resetMatrix();
 	}
 }
