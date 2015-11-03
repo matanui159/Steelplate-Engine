@@ -26,14 +26,14 @@ public class Resource {
 		}
 		return data;
 	}
-	public static Device loadDevice(Game game, String list) {
+	public static Device loadDevice(String list) {
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(getResourceAsStream(list));
 			while (scanner.hasNextLine()) {
 				try {
-					Device device = (Device)Class.forName(scanner.nextLine())
-							.getConstructor(Game.class).newInstance(game);
+					Device device = (Device)Class.forName(scanner.nextLine()).getConstructor()
+							.newInstance();
 					return device;
 				} catch (Exception ex) {}
 			}

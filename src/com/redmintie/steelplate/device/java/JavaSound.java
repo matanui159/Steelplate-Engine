@@ -12,21 +12,20 @@ import com.redmintie.steelplate.sound.Sound;
 
 public class JavaSound extends Sound {
 	private Clip clip;
-	public JavaSound(AudioInputStream input) throws IOException {
+	@Override
+	public void loadData(AudioInputStream data) throws IOException {
 		try {
 			clip = AudioSystem.getClip();
-			clip.open(input);
+			clip.open(data);
 		} catch (LineUnavailableException ex) {
 			throw new IOException(ex);
 		}
 	}
 	@Override
 	public void play() {
-		if (clip.isRunning()) {
-			clip.stop();
-			clip.flush();
-			clip.setFramePosition(0);
-		}
+		clip.stop();
+		clip.flush();
+		clip.setFramePosition(0);
 		clip.start();
 	}
 	@Override

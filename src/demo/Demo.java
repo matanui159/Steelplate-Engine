@@ -1,6 +1,8 @@
 package demo;
 import java.io.IOException;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
@@ -31,7 +33,7 @@ public class Demo extends Game {
 			old = Image.createImage(getWidth(), getHeight());
 			current = Image.createImage(getWidth(), getHeight());
 			player = new Player();
-		} catch (IOException ex) {
+		} catch (IOException|UnsupportedAudioFileException ex) {
 			ex.printStackTrace();
 			end();
 		}

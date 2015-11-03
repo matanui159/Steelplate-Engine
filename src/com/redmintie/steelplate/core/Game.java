@@ -61,11 +61,11 @@ public abstract class Game {
 		if (instance != null) {
 			throw new RuntimeException("There can only be one game instance.");
 		}
+		instance = this;
 		
-		window = (Window)Resource.loadDevice(this, "com/redmintie/steelplate/res/devices/windowDevices.list");
+		window = (Window)Resource.loadDevice("com/redmintie/steelplate/res/devices/windowDevices.list");
 		window.setTitle("Steelplate Game");
 		window.setSize(1024, 512);
-		instance = this;
 	}
 	
 	/**

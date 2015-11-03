@@ -3,14 +3,11 @@ package com.redmintie.steelplate.device;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.sound.sampled.AudioInputStream;
-
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.input.Keyboard;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
-import com.redmintie.steelplate.sound.Sound;
 
 public abstract class Window implements Device {
 	private long time = -1;
@@ -65,5 +62,4 @@ public abstract class Window implements Device {
 	public abstract Image loadImage(BufferedImage image);
 	public abstract Image createImage(int width, int height);
 	public abstract Font loadFont(java.awt.Font font);
-	public abstract Sound loadSound(AudioInputStream input) throws IOException;
 }

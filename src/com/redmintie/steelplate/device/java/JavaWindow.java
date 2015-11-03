@@ -7,9 +7,7 @@ import java.awt.Transparency;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.sound.sampled.AudioInputStream;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -18,10 +16,8 @@ import com.redmintie.steelplate.device.Window;
 import com.redmintie.steelplate.input.Keyboard;
 import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
-import com.redmintie.steelplate.sound.Sound;
 
 public class JavaWindow extends Window {
-	private Game game;
 	private JFrame frame = new JFrame();
 	private JPanel panel = new JPanel() {
 		private static final long serialVersionUID = 0;
@@ -31,21 +27,20 @@ public class JavaWindow extends Window {
 			if (logo) {
 				drawLogo(canvas);
 			} else {
-				game.update(getDelta());
-				game.draw(canvas);
+				Game.getGameInstance().update(getDelta());
+				Game.getGameInstance().draw(canvas);
 				repaint();
 			}
 		}
 	};
 	private boolean logo = true;
-	public JavaWindow(Game game) {
-		this.game = game;
+	public JavaWindow() {
 		frame.add(panel);
 		frame.setLocationByPlatform(true);
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				JavaWindow.this.game.close();
+				Game.getGameInstance().close();
 			}
 		});
 	}
@@ -108,9 +103,5 @@ public class JavaWindow extends Window {
 	@Override
 	public Font loadFont(java.awt.Font font) {
 		return new JavaFont(font);
-	}
-	@Override
-	public Sound loadSound(AudioInputStream input) throws IOException {
-		return new JavaSound(input);
 	}
 }
