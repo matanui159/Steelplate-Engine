@@ -1,16 +1,15 @@
 package com.redmintie.steelplate.node;
 
-import java.util.ArrayList;
-
-import com.redmintie.steelplate.math.Point;
 import com.redmintie.steelplate.render.Canvas;
+import com.redmintie.steelplate.util.Array;
+import com.redmintie.steelplate.util.math.Point;
 
 public class Node {
 	public Point position = new Point();
 	public double angle;
 	public int width;
 	public int height;
-	private ArrayList<Node> children = new ArrayList<Node>();
+	private Array<Node> children = new Array<Node>();
 	public boolean testOverlap(Node other) {
 		return position.getX() - width / 2 < other.position.getX() + other.width / 2
 				|| position.getX() + width / 2 > other.position.getX() - other.width / 2

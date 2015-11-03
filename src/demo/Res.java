@@ -10,9 +10,11 @@ public class Res {
 	public static Image background;
 	public static Image player;
 	public static Image laser;
+	public static Image enemy;
 	public static void init() throws IOException {
 		background = Image.loadImage("res/images/background.png");
 		player = Image.loadImage("res/images/player.png");
 		laser = Image.loadImage("res/images/laser.png");
+		enemy = Image.loadImage("res/images/enemy.png");
 	}
 }

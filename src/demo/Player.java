@@ -1,23 +1,22 @@
 package demo;
 
-import java.util.ArrayList;
-
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.input.Keyboard;
 import com.redmintie.steelplate.input.event.KeyAdapter;
 import com.redmintie.steelplate.input.event.KeyEvent;
-import com.redmintie.steelplate.math.Point;
-import com.redmintie.steelplate.math.ease.EaseOut;
 import com.redmintie.steelplate.node.Node;
 import com.redmintie.steelplate.render.Canvas;
+import com.redmintie.steelplate.util.Array;
+import com.redmintie.steelplate.util.math.Point;
+import com.redmintie.steelplate.util.math.ease.EaseOut;
 
 public class Player extends Node {
 	private EaseOut ease = new EaseOut(
 			new Point(0, 100),
 			new Point(0, -100),
-			1, 3
+			1, 2
 	);
-	private ArrayList<Laser> lasers = new ArrayList<Laser>();
+	private Array<Laser> lasers = new Array<Laser>();
 	public Player() {
 		position.setX(Game.getGameInstance().getWidth() / 2);
 		width = Res.player.getWidth();
@@ -27,7 +26,7 @@ public class Player extends Node {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKey() == Keyboard.KEY_SPACE) {
-					lasers.add(new Laser(position));
+					lasers.add(new Laser(position, e.isKeyDown(Keyboard.KEY_CONTROL)));
 				}
 			}
 		});
@@ -47,6 +46,9 @@ public class Player extends Node {
 		}
 		for (Laser laser : lasers) {
 			laser.update(delta);
+			if (laser.position.getY() < -100) {
+				lasers.remove(laser);
+			}
 		}
 	}
 	@Override

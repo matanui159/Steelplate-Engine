@@ -1,4 +1,4 @@
-package com.redmintie.steelplate.math;
+package com.redmintie.steelplate.util.math;
 
 public class Point extends Vector {
 	public Point(double x, double y) {

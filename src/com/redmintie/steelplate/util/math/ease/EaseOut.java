@@ -1,6 +1,6 @@
-package com.redmintie.steelplate.math.ease;
+package com.redmintie.steelplate.util.math.ease;
 
-import com.redmintie.steelplate.math.Point;
+import com.redmintie.steelplate.util.math.Point;
 
 public class EaseOut extends Ease {
 	private double power;
