@@ -5,17 +5,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
-import java.util.Stack;
 
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
+import com.redmintie.steelplate.util.Array;
 
 public class JavaCanvas extends Canvas {
 	private AffineTransform reset = new AffineTransform();
-	private Stack<AffineTransform> stack = new Stack<AffineTransform>();
+	private Array<AffineTransform> stack = new Array<AffineTransform>();
+	private int current;
 	private Graphics2D g;
 	private int ascent;
 	public JavaCanvas(Graphics g) {
@@ -24,7 +25,6 @@ public class JavaCanvas extends Canvas {
 		this.g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		setFont(font);
 		setColor(color);
-		stack.add(this.g.getTransform());
 	}
 	@Override
 	public void setColor(Color color) {
@@ -71,14 +71,16 @@ public class JavaCanvas extends Canvas {
 	}
 	@Override
 	public void pushMatrix() {
-		AffineTransform transform = new AffineTransform();
-		transform.setTransform(g.getTransform());
-		stack.push(transform);
+		current++;
+		if (current == stack.size()) {
+			stack.add(new AffineTransform());
+		}
+		stack.get(current).setTransform(g.getTransform());
 	}
 	@Override
 	public void popMatrix() {
-		if (!stack.empty()) {
-			g.setTransform(stack.pop());
+		if (current > 0) {
+			g.setTransform(stack.get(current--));
 		}
 	}
 	@Override

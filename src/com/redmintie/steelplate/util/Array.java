@@ -12,7 +12,7 @@ public class Array<E> implements Iterable<E> {
 		if (value == null) {
 			return -1;
 		}
-		while (i < array.length && array[i] == null) {
+		while (i < array.length && array[i] != null) {
 			i++;
 		}
 		if (i == array.length) {

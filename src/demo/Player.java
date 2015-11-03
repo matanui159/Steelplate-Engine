@@ -26,7 +26,7 @@ public class Player extends Node {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKey() == Keyboard.KEY_SPACE) {
-					lasers.add(new Laser(position, e.isKeyDown(Keyboard.KEY_CONTROL)));
+					System.out.println(lasers.add(new Laser(position, e.isKeyDown(Keyboard.KEY_CONTROL))));
 				}
 			}
 		});
