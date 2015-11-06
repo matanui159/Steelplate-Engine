@@ -1,25 +1,18 @@
 package com.redmintie.steelplate.util.math.ease;
 
-import com.redmintie.steelplate.util.math.Point;
-
 public abstract class Ease {
-	private Point start;
-	private Point diff;
+	private double start;
+	private double diff;
 	private double time;
 	private double t;
-	public Ease(Point start, Point end, double time) {
+	public Ease(double start, double end, double time) {
 		this.start = start;
-		this.diff = new Point(end);
-		diff.sub(start);
+		this.diff = end - start;
 		this.time = time;
 	}
-	public Point update(double delta, Point point) {
+	public double update(double delta) {
 		t = Math.min(t + delta / time, 1);
-		point.setAll(
-				start.getX() + diff.getX() * ease(t),
-				start.getY() + diff.getY() * ease(t)
-		);
-		return point;
+		return start + diff * ease(t);
 	}
 	public abstract double ease(double t);
 }

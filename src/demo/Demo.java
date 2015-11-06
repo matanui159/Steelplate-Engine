@@ -63,7 +63,7 @@ public class Demo extends Game {
 		
 		player.update(delta);
 		
-		time += delta;
+		time += delta * 2;
 		while (time >= 1) {
 			enemies.add(new Enemy());
 			time -= 1;
@@ -72,6 +72,13 @@ public class Demo extends Game {
 			enemy.update(delta);
 			if (enemy.position.getY() > Game.getGameInstance().getHeight() + 100) {
 				enemies.remove(enemy);
+			} else {
+				for (Laser laser : player.lasers) {
+					if (laser.testOverlap(enemy)) {
+						player.lasers.remove(laser);
+						enemies.remove(enemy);
+					}
+				}
 			}
 		}
 	}

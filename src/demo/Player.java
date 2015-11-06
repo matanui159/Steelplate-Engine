@@ -7,16 +7,11 @@ import com.redmintie.steelplate.input.event.KeyEvent;
 import com.redmintie.steelplate.node.Node;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Array;
-import com.redmintie.steelplate.util.math.Point;
 import com.redmintie.steelplate.util.math.ease.EaseOut;
 
 public class Player extends Node {
-	private EaseOut ease = new EaseOut(
-			new Point(0, 100),
-			new Point(0, -100),
-			1, 2
-	);
-	private Array<Laser> lasers = new Array<Laser>();
+	private EaseOut ease = new EaseOut(100, -100, 1, 2);
+	public Array<Laser> lasers = new Array<Laser>();
 	public Player() {
 		position.setX(Game.getGameInstance().getWidth() / 2);
 		width = Res.player.getWidth();
@@ -35,9 +30,7 @@ public class Player extends Node {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
-		double x = position.getX();
-		ease.update(delta, position);
-		position.add(x, Game.getGameInstance().getHeight());
+		position.setY(Game.getGameInstance().getHeight() + ease.update(delta));
 		
 		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_LEFT)) {
 			position.add(-500 * delta, 0);

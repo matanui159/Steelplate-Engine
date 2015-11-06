@@ -11,6 +11,7 @@ import com.redmintie.steelplate.render.Image;
 
 public class JavaImage extends Image {
 	private BufferedImage image;
+	private JavaCanvas canvas;
 	public JavaImage(BufferedImage image) {
 		GraphicsConfiguration config = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice().getDefaultConfiguration();
@@ -38,9 +39,15 @@ public class JavaImage extends Image {
 	}
 	@Override
 	public Canvas getCanvas() {
-		return new JavaCanvas(image.getGraphics());
+		if (canvas == null) {
+			canvas = new JavaCanvas(image.getGraphics());
+		}
+		return canvas;
 	}
 	@Override
 	public void destroy() {
+		if (canvas != null) {
+			canvas.destroy();
+		}
 	}
 }

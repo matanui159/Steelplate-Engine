@@ -42,15 +42,18 @@ public class Array<E> implements Iterable<E> {
 	}
 	@SuppressWarnings("unchecked")
 	public E remove(int i) {
-		Object value = array[i];
-		array[i] = null;
-		if (value != null) {
-			size--;
+		if (i >= 0 && i < array.length) {
+			Object value = array[i];
+			array[i] = null;
+			if (value != null) {
+				size--;
+			}
+			if (i < this.i) {
+				this.i = i;
+			}
+			return (E)value;
 		}
-		if (i < this.i) {
-			this.i = i;
-		}
-		return (E)value;
+		return null;
 	}
 	public int remove(Object value) {
 		int i = indexOf(value);

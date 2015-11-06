@@ -12,9 +12,9 @@ public class Node {
 	private Array<Node> children = new Array<Node>();
 	public boolean testOverlap(Node other) {
 		return position.getX() - width / 2 < other.position.getX() + other.width / 2
-				|| position.getX() + width / 2 > other.position.getX() - other.width / 2
-				|| position.getY() - height / 2 < other.position.getY() + other.height / 2
-				|| position.getY() + height / 2 > other.position.getY() - other.height / 2;
+				&& position.getX() + width / 2 > other.position.getX() - other.width / 2
+				&& position.getY() - height / 2 < other.position.getY() + other.height / 2
+				&& position.getY() + height / 2 > other.position.getY() - other.height / 2;
 	}
 	public void update(double delta) {
 		for (Node child : children) {

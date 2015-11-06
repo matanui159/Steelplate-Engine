@@ -1,10 +1,8 @@
 package com.redmintie.steelplate.util.math.ease;
 
-import com.redmintie.steelplate.util.math.Point;
-
 public class EaseOut extends Ease {
 	private double power;
-	public EaseOut(Point start, Point end, double time, double power) {
+	public EaseOut(double start, double end, double time, double power) {
 		super(start, end, time);
 		this.power = power;
 	}
