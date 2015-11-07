@@ -12,24 +12,34 @@ import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
 import com.redmintie.steelplate.util.Array;
+import com.redmintie.steelplate.util.Map;
 
 public class JavaCanvas extends Canvas {
+	private Graphics2D g;
 	private AffineTransform reset = new AffineTransform();
 	private Array<AffineTransform> stack = new Array<AffineTransform>();
 	private int current;
-	private Graphics2D g;
+	private Map<Color, java.awt.Color> colors = new Map<Color, java.awt.Color>();
 	private int ascent;
-	public JavaCanvas(Graphics g) {
+	public void setGraphics(Graphics g) {
 		this.g = (Graphics2D)g;
 		this.g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		this.g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		setFont(font);
 		setColor(color);
+		setFont(font);
 	}
 	@Override
 	public void setColor(Color color) {
 		super.setColor(color);
-		java.awt.Color c = new java.awt.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+		java.awt.Color c = colors.get(color);
+		if (c == null) {
+			c = new java.awt.Color(
+					color.getRed(),
+					color.getGreen(),
+					color.getBlue(),
+					color.getAlpha());
+			colors.set(color, c);
+		}
 		g.setColor(c);
 		g.setBackground(c);
 	}

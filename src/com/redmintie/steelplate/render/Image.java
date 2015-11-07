@@ -1,21 +1,23 @@
 package com.redmintie.steelplate.render;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.core.Game;
+import com.redmintie.steelplate.core.Resource;
+import com.redmintie.steelplate.util.Map;
 
 public abstract class Image {
-	private static HashMap<String, Image> images = new HashMap<String, Image>();
+	private static Map<String, Image> images = new Map<String, Image>();
 	public static Image loadImage(String name) throws IOException {
-		if (!images.containsKey(name)) {
-			images.put(name, Game.getGameInstance().getWindow().loadImage(
-					ImageIO.read(Resource.getResourceAsStream(name))));
+		Image image = images.get(name);
+		if (image == null) {
+			image = Game.getGameInstance().getWindow().loadImage(
+					ImageIO.read(Resource.getResourceAsStream(name)));
+			images.set(name, image);
 		}
-		return images.get(name);
+		return image;
 	}
 	public static Image createImage(int width, int height) throws IOException {
 		return Game.getGameInstance().getWindow().createImage(width, height);

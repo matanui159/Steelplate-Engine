@@ -17,6 +17,22 @@ public class Point {
 		}
 		return result;
 	}
+	@Override
+	public String toString() {
+		return "[" + x + ", " + y + "]";
+	}
+	@Override
+	public int hashCode() {
+		return (int)x ^ (int)y;
+	}
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Point) {
+			Point point = (Point)other;
+			return x == point.x && y == point.y;
+		}
+		return false;
+	}
 	public Point set(double x, double y) {
 		this.x = x;
 		this.y = y;

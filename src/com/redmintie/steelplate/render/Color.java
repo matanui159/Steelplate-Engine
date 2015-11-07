@@ -33,6 +33,21 @@ public class Color {
 		this.blue = blue;
 		this.alpha = 255;
 	}
+	@Override
+	public String toString() {
+		return "RGBA(" + getRed() + ", " + getGreen() + ", " + getBlue() + ", " + getAlpha() + ")";
+	}
+	@Override
+	public int hashCode() {
+		return red << 24 | green << 16 | blue << 8 | alpha;
+	}
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Color) {
+			return hashCode() == other.hashCode();
+		}
+		return false;
+	}
 	public void setRed(int red) {
 		this.red = red;
 	}

@@ -2,31 +2,33 @@ package com.redmintie.steelplate.render;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
-import java.util.HashMap;
 
-import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.core.Game;
+import com.redmintie.steelplate.core.Resource;
+import com.redmintie.steelplate.util.Map;
 
 public abstract class Font {
 	public static final int PLAIN = java.awt.Font.PLAIN;
 	public static final int ITALIC = java.awt.Font.ITALIC;
 	public static final int BOLD = java.awt.Font.BOLD;
 	public static final int ITALIC_BOLD = ITALIC | BOLD;
-	private static HashMap<FontInfo, Font> fonts = new HashMap<FontInfo, Font>();
+	private static Map<FontInfo, Font> fonts = new Map<FontInfo, Font>();
 	private static FontInfo info = new FontInfo(null, 0, 0);
 	public static Font loadFont(String family, int style, int size) {
 		info.set(family, style, size);
-		if (!fonts.containsKey(info)) {
-			java.awt.Font font;
+		Font font = fonts.get(info);
+		if (font == null) {
+			java.awt.Font f;
 			try {
-				font = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,
+				f = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT,
 						Resource.getResourceAsStream(family)).deriveFont(style, size);
 			} catch (IOException|FontFormatException ex) {
-				font = new java.awt.Font(family, style, size);
+				f = new java.awt.Font(family, style, size);
 			}
-			fonts.put(new FontInfo(family, style, size), Game.getGameInstance().getWindow().loadFont(font));
+			font = Game.getGameInstance().getWindow().loadFont(f);
+			fonts.set(new FontInfo(family, style, size), font);
 		}
-		return fonts.get(info);
+		return font;
 	}
 	private static class FontInfo {
 		public String family;

@@ -40,7 +40,8 @@ public class JavaImage extends Image {
 	@Override
 	public Canvas getCanvas() {
 		if (canvas == null) {
-			canvas = new JavaCanvas(image.getGraphics());
+			canvas = new JavaCanvas();
+			canvas.setGraphics(image.createGraphics());
 		}
 		return canvas;
 	}

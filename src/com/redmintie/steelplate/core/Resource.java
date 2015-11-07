@@ -35,7 +35,9 @@ public class Resource {
 					Device device = (Device)Class.forName(scanner.nextLine()).getConstructor()
 							.newInstance();
 					return device;
-				} catch (Exception ex) {}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 			throw new RuntimeException("No supported devices.");
 		} catch (IOException ex) {

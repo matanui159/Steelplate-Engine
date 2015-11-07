@@ -2,7 +2,6 @@ package com.redmintie.steelplate.sound;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -10,17 +9,19 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.device.Device;
+import com.redmintie.steelplate.util.Map;
 
 public abstract class Sound implements Device {
-	private static HashMap<String, Sound> sounds = new HashMap<String, Sound>();
+	private static Map<String, Sound> sounds = new Map<String, Sound>();
 	public static Sound loadSound(String name) throws IOException, UnsupportedAudioFileException {
-		if (!sounds.containsKey(name)) {
-			Sound sound = (Sound)Resource.loadDevice("com/redmintie/steelplate/res/devices/soundDevices.list");
+		Sound sound = sounds.get(name);
+		if (sound == null) {
+			sound = (Sound)Resource.loadDevice("com/redmintie/steelplate/res/devices/soundDevices.list");
 			sound.loadData(AudioSystem.getAudioInputStream(new BufferedInputStream(
 					Resource.getResourceAsStream(name))));
-			sounds.put(name, sound);
+			sounds.set(name, sound);
 		}
-		return sounds.get(name);
+		return sound;
 	}
 	private double volume;
 	private boolean loop;

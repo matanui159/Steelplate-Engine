@@ -23,7 +23,10 @@ public class JavaWindow extends Window {
 		private static final long serialVersionUID = 0;
 		@Override
 		public void paintComponent(Graphics g) {
-			JavaCanvas canvas = new JavaCanvas(g);
+			if (canvas == null) {
+				canvas = new JavaCanvas();
+			}
+			canvas.setGraphics(g);
 			if (logo) {
 				drawLogo(canvas);
 			} else {
@@ -33,6 +36,7 @@ public class JavaWindow extends Window {
 			}
 		}
 	};
+	private JavaCanvas canvas;
 	private boolean logo = true;
 	public JavaWindow() {
 		frame.add(panel);
