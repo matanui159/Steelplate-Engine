@@ -19,7 +19,7 @@ public class Demo extends Game {
 		begin();
 	}
 	
-	private double bgTime;
+	private double time;
 	
 	private Image old;
 	private Image current;
@@ -27,8 +27,10 @@ public class Demo extends Game {
 	
 	private Player player;
 	
-	private double time;
 	private Array<Enemy> enemies = new Array<Enemy>();
+	
+	private Array<Star> stars = new Array<Star>();
+	private int score;
 	
 	@Override
 	public void init() {
@@ -44,9 +46,12 @@ public class Demo extends Game {
 	}
 	@Override
 	public void update(double delta) {
-		bgTime += delta * 2;
-		while (bgTime >= 1) {
-			bgTime -= 1;
+		time += delta * 2;
+		while (time >= 1) {
+			for (int i = 0; i < 3; i++) {
+				enemies.add(new Enemy());
+			}
+			time -= 1;
 		}
 		
 		if (old.getWidth() != getWidth() || old.getHeight() != getHeight()) {
@@ -63,22 +68,31 @@ public class Demo extends Game {
 		
 		player.update(delta);
 		
-		time += delta * 2;
-		while (time >= 1) {
-			enemies.add(new Enemy());
-			time -= 1;
-		}
 		for (Enemy enemy : enemies) {
 			enemy.update(delta);
-			if (enemy.position.getY() > Game.getGameInstance().getHeight() + 100) {
+			if (player.lives >= 0 && enemy.testOverlap(player)) {
+				player.lives--;
+				enemies.remove(enemy);
+			} else if (enemy.position.getY() > Game.getGameInstance().getHeight() + 100) {
 				enemies.remove(enemy);
 			} else {
 				for (Laser laser : player.lasers) {
 					if (laser.testOverlap(enemy)) {
+						for (int i = 0; i < 30; i++) {
+							stars.add(new Star(enemy.position));
+						}
 						player.lasers.remove(laser);
 						enemies.remove(enemy);
 					}
 				}
+			}
+		}
+		
+		for (Star star : stars) {
+			star.update(delta);
+			if (star.position.getX() == -100 && star.position.getY() == -100) {
+				score++;
+				stars.remove(star);
 			}
 		}
 	}
@@ -88,7 +102,7 @@ public class Demo extends Game {
 			for (int y = -1; y < (double)getHeight() / Res.background.getHeight(); y++) {
 				canvas.drawImage(Res.background,
 						x * Res.background.getWidth(),
-						(y + bgTime) * Res.background.getHeight());
+						(y + time) * Res.background.getHeight());
 			}
 		}
 		
@@ -105,10 +119,26 @@ public class Demo extends Game {
 			enemy.draw(c);
 		}
 		
+		for (Star star : stars) {
+			star.draw(c);
+		}
+		
 		canvas.drawImage(current);
 		Image buffer = old;
 		old = current;
 		current = buffer;
+		
+		for (int i = 0; i < 8; i++) {
+			int j = score / (int)Math.pow(10, 7 - i);
+			while (j >= 10) {
+				j -= 10;
+			}
+			canvas.drawImage(Res.numbers[j], i * 30 + 10, 10);
+		}
+		
+		for (int i = 0; i < player.lives; i++) {
+			canvas.drawImage(Res.life, i * 50 + 10, 40);
+		}
 	}
 	@Override
 	public void close() {

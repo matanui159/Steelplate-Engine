@@ -1,11 +1,11 @@
 package demo;
 
+import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.input.Keyboard;
-import com.redmintie.steelplate.node.Node;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.math.Point;
 
-public class Laser extends Node {
+public class Laser extends Entity {
 	public Laser(Point position, boolean side) {
 		this.position.setAll(position);
 		width = Res.laser.getWidth();

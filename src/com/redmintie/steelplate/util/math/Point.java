@@ -60,9 +60,9 @@ public class Point extends Vector {
 			values[0] = x;
 			values[1] = y;
 		} else {
-			Vector dir = getDirectionVector();
-			values[0] += dir.values[0] * speed;
-			values[1] += dir.values[1] * speed;
+			double[] dir = getDirectionTo(x, y);
+			values[0] += dir[0] * speed;
+			values[1] += dir[1] * speed;
 		}
 		return this;
 	}
