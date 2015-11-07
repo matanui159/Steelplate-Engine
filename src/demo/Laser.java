@@ -7,7 +7,7 @@ import com.redmintie.steelplate.util.math.Point;
 
 public class Laser extends Entity {
 	public Laser(Point position, boolean side) {
-		this.position.setAll(position);
+		this.position.set(position);
 		width = Res.laser.getWidth();
 		height = Res.laser.getHeight();
 		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_LEFT)) {

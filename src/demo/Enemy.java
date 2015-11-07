@@ -6,7 +6,7 @@ import com.redmintie.steelplate.render.Canvas;
 
 public class Enemy extends Entity {
 	public Enemy() {
-		position.setAll(Math.random() * Game.getGameInstance().getWidth(), -100);
+		position.set(Math.random() * Game.getGameInstance().getWidth(), -100);
 		width = Res.enemy.getWidth();
 		height = Res.enemy.getHeight();
 	}

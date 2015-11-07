@@ -73,7 +73,7 @@ public class Demo extends Game {
 			if (player.lives >= 0 && enemy.testOverlap(player)) {
 				player.lives--;
 				enemies.remove(enemy);
-			} else if (enemy.position.getY() > Game.getGameInstance().getHeight() + 100) {
+			} else if (enemy.position.y > Game.getGameInstance().getHeight() + 100) {
 				enemies.remove(enemy);
 			} else {
 				for (Laser laser : player.lasers) {
@@ -90,7 +90,7 @@ public class Demo extends Game {
 		
 		for (Star star : stars) {
 			star.update(delta);
-			if (star.position.getX() == -100 && star.position.getY() == -100) {
+			if (star.position.x == -100 && star.position.y == -100) {
 				score++;
 				stars.remove(star);
 			}

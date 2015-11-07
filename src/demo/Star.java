@@ -9,7 +9,7 @@ public class Star extends Entity {
 	private double aSpeed = Math.random() * 20 - 10;
 	private double fSpeed;
 	public Star(Point pos) {
-		position.setAll(pos);
+		position.set(pos);
 		angle = Math.random() * 360;
 		
 		width = Res.star.getWidth();
@@ -20,7 +20,7 @@ public class Star extends Entity {
 	@Override
 	public void update(double delta) {
 		fSpeed += 10 * delta;
-		position.add(speed.getX() * delta, speed.getY() * delta);
+		position.add(speed.x * delta, speed.y * delta);
 		angle += aSpeed;
 		position.moveTowards(-100, -100, fSpeed);
 	}

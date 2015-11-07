@@ -14,7 +14,7 @@ public class Player extends Entity {
 	public Array<Laser> lasers = new Array<Laser>();
 	public int lives = 3;
 	public Player() {
-		position.setX(Game.getGameInstance().getWidth() / 2);
+		position.x = Game.getGameInstance().getWidth() / 2;
 		width = Res.player.getWidth();
 		height = Res.player.getHeight();
 		
@@ -31,23 +31,23 @@ public class Player extends Entity {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
-		position.setY(Game.getGameInstance().getHeight() + ease.update(delta));
+		position.y = Game.getGameInstance().getHeight() + ease.update(delta);
 		
 		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_LEFT)) {
 			position.add(-500 * delta, 0);
-			if (position.getX() < 0) {
-				position.setX(0);
+			if (position.x < 0) {
+				position.x = 0;
 			}
 		}
 		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_RIGHT)) {
 			position.add(500 * delta, 0);
-			if (position.getX() > Game.getGameInstance().getWidth()) {
-				position.setX(Game.getGameInstance().getWidth());
+			if (position.x > Game.getGameInstance().getWidth()) {
+				position.x = Game.getGameInstance().getWidth();
 			}
 		}
 		for (Laser laser : lasers) {
 			laser.update(delta);
-			if (laser.position.getY() < -100) {
+			if (laser.position.y < -100) {
 				lasers.remove(laser);
 			}
 		}
