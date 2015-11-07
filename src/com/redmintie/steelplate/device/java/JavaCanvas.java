@@ -18,7 +18,7 @@ public class JavaCanvas extends Canvas {
 	private Graphics2D g;
 	private AffineTransform reset = new AffineTransform();
 	private Array<AffineTransform> stack = new Array<AffineTransform>();
-	private int current;
+	private int current = -1;
 	private Map<Color, java.awt.Color> colors = new Map<Color, java.awt.Color>();
 	private int ascent;
 	public void setGraphics(Graphics g) {
@@ -89,7 +89,7 @@ public class JavaCanvas extends Canvas {
 	}
 	@Override
 	public void popMatrix() {
-		if (current > 0) {
+		if (current >= 0) {
 			g.setTransform(stack.get(current--));
 		}
 	}

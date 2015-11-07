@@ -6,12 +6,11 @@ import com.redmintie.steelplate.input.Keyboard;
 import com.redmintie.steelplate.input.event.KeyAdapter;
 import com.redmintie.steelplate.input.event.KeyEvent;
 import com.redmintie.steelplate.render.Canvas;
-import com.redmintie.steelplate.util.Array;
 import com.redmintie.steelplate.util.ease.EaseOut;
 
 public class Player extends Entity {
 	private EaseOut ease = new EaseOut(100, -100, 1, 2);
-	public Array<Laser> lasers = new Array<Laser>();
+//	public Array<Laser> lasers = new Array<Laser>();
 	public int lives = 3;
 	public Player() {
 		position.x = Game.getGameInstance().getWidth() / 2;
@@ -23,7 +22,7 @@ public class Player extends Entity {
 			public void keyPressed(KeyEvent e) {
 				if (lives >= 0 && e.getKey() == Keyboard.KEY_SPACE) {
 					Res.laserSound.play();
-					lasers.add(new Laser(position, e.isKeyDown(Keyboard.KEY_CONTROL)));
+					addChild(new Laser(position, e.isKeyDown(Keyboard.KEY_CONTROL)));
 				}
 			}
 		});
@@ -45,18 +44,18 @@ public class Player extends Entity {
 				position.x = Game.getGameInstance().getWidth();
 			}
 		}
-		for (Laser laser : lasers) {
-			laser.update(delta);
+		for (Entity laser : this) {
+//			laser.update(delta);
 			if (laser.position.y < -100) {
-				lasers.remove(laser);
+				removeChild(laser);
 			}
 		}
 	}
 	@Override
 	public void draw(Canvas canvas) {
-		for (Laser laser : lasers) {
-			laser.draw(canvas);
-		}
+//		for (Laser laser : lasers) {
+//			laser.draw(canvas);
+//		}
 		
 		if (lives >= 0) {
 			super.draw(canvas);

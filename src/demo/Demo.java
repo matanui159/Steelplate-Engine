@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.redmintie.steelplate.core.Game;
+import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
@@ -76,12 +77,12 @@ public class Demo extends Game {
 			} else if (enemy.position.y > Game.getGameInstance().getHeight() + 100) {
 				enemies.remove(enemy);
 			} else {
-				for (Laser laser : player.lasers) {
+				for (Entity laser : player) {
 					if (laser.testOverlap(enemy)) {
 						for (int i = 0; i < 30; i++) {
 							stars.add(new Star(enemy.position));
 						}
-						player.lasers.remove(laser);
+						player.removeChild(laser);
 						enemies.remove(enemy);
 					}
 				}
