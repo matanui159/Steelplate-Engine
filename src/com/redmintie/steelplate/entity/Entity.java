@@ -2,7 +2,7 @@ package com.redmintie.steelplate.entity;
 
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Array;
-import com.redmintie.steelplate.util.math.Point;
+import com.redmintie.steelplate.util.Point;
 
 public class Entity {
 	public Point position = new Point();

@@ -1,4 +1,4 @@
-package com.redmintie.steelplate.util.math.ease;
+package com.redmintie.steelplate.util.ease;
 
 public class EaseOut extends Ease {
 	private double power;

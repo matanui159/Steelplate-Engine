@@ -1,4 +1,4 @@
-package com.redmintie.steelplate.util.math.ease;
+package com.redmintie.steelplate.util.ease;
 
 public abstract class Ease {
 	private double start;

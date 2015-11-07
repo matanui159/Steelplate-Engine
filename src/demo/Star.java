@@ -2,7 +2,7 @@ package demo;
 
 import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.render.Canvas;
-import com.redmintie.steelplate.util.math.Point;
+import com.redmintie.steelplate.util.Point;
 
 public class Star extends Entity {
 	private Point speed = new Point(0, 0);

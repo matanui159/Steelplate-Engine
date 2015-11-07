@@ -7,7 +7,7 @@ import com.redmintie.steelplate.input.event.KeyAdapter;
 import com.redmintie.steelplate.input.event.KeyEvent;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Array;
-import com.redmintie.steelplate.util.math.ease.EaseOut;
+import com.redmintie.steelplate.util.ease.EaseOut;
 
 public class Player extends Entity {
 	private EaseOut ease = new EaseOut(100, -100, 1, 2);

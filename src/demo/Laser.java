@@ -3,7 +3,7 @@ package demo;
 import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.input.Keyboard;
 import com.redmintie.steelplate.render.Canvas;
-import com.redmintie.steelplate.util.math.Point;
+import com.redmintie.steelplate.util.Point;
 
 public class Laser extends Entity {
 	public Laser(Point position, boolean side) {

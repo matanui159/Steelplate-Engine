@@ -1,4 +1,4 @@
-package com.redmintie.steelplate.util.math;
+package com.redmintie.steelplate.util;
 
 public class Point {
 	private Point result;
