@@ -4,23 +4,40 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class Array<E> implements Iterable<E> {
-	private Object[] array = new Object[2];
+	private Object[] array = new Object[1];
 	private int i;
 	private int size;
 	private ArrayIterator iterator;
 	public int add(E value) {
-		if (value == null) {
-			return -1;
-		}
 		while (i < array.length && array[i] != null) {
 			i++;
 		}
 		if (i == array.length) {
-			array = Arrays.copyOf(array, array.length + 2);
+			array = Arrays.copyOf(array, array.length + 1);
 		}
 		array[i] = value;
-		size++;
+		if (value != null) {
+			size++;
+		}
 		return i++;
+	}
+	@SuppressWarnings("unchecked")
+	public E set(int i, E value) {
+		if (i >= 0) {
+			if (i >= array.length) {
+				array = Arrays.copyOf(array, i + 1);
+			}
+			Object old = array[i];
+			array[i] = value;
+			if (old == null && value != null) {
+				size++;
+			}
+			if (old != null && value == null) {
+				size--;
+			}
+			return (E)old;
+		}
+		return null;
 	}
 	@SuppressWarnings("unchecked")
 	public E get(int i) {
@@ -30,8 +47,12 @@ public class Array<E> implements Iterable<E> {
 		return null;
 	}
 	public int indexOf(Object value) {
+		if (value == null) {
+			return -1;
+		}
+		int hash = value.hashCode();
 		for (int i = 0; i < array.length; i++) {
-			if (array[i] != null && array[i].equals(value)) {
+			if (array[i] != null && array[i].hashCode() == hash && array[i].equals(value)) {
 				return i;
 			}
 		}
