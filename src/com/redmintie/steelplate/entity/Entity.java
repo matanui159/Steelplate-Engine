@@ -24,9 +24,6 @@ public class Entity implements Iterable<Entity> {
 				&& y - height / 2 < oy + other.height / 2
 				&& y + height / 2 > oy - other.height / 2;
 	}
-	public boolean isRelative() {
-		return relative;
-	}
 	public double getTrueX() {
 		double x = position.x;
 		if (relative && parent != null) {
