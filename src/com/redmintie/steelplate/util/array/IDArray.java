@@ -1,13 +1,14 @@
-package com.redmintie.steelplate.util;
+package com.redmintie.steelplate.util.array;
 
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class Array<E> implements Iterable<E> {
+public class IDArray<E> implements Array<E> {
 	private Object[] array = new Object[1];
 	private int i;
 	private int size;
 	private ArrayIterator iterator;
+	@Override
 	public int add(E value) {
 		while (i < array.length && array[i] != null) {
 			i++;
@@ -21,6 +22,7 @@ public class Array<E> implements Iterable<E> {
 		}
 		return i++;
 	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public E set(int i, E value) {
 		if (i >= 0) {
@@ -39,6 +41,7 @@ public class Array<E> implements Iterable<E> {
 		}
 		return null;
 	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public E get(int i) {
 		if (i >= 0 && i < array.length) {
@@ -46,6 +49,7 @@ public class Array<E> implements Iterable<E> {
 		}
 		return null;
 	}
+	@Override
 	public int indexOf(Object value) {
 		if (value == null) {
 			return -1;
@@ -58,9 +62,11 @@ public class Array<E> implements Iterable<E> {
 		}
 		return -1;
 	}
+	@Override
 	public int size() {
 		return size;
 	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public E remove(int i) {
 		if (i >= 0 && i < array.length) {
@@ -76,11 +82,13 @@ public class Array<E> implements Iterable<E> {
 		}
 		return null;
 	}
+	@Override
 	public int remove(Object value) {
 		int i = indexOf(value);
 		remove(i);
 		return i;
 	}
+	@Override
 	public void clear() {
 		for (int i = 0; i < array.length; i++) {
 			array[i] = null;

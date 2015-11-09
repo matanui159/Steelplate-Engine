@@ -13,6 +13,8 @@ public class Enemy extends Entity {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
+		addChild(new Particle(Res.enemy, position, angle));
+		
 		position.add(0, 300 * delta);
 	}
 	@Override

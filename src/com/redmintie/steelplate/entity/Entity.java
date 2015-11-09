@@ -3,17 +3,17 @@ package com.redmintie.steelplate.entity;
 import java.util.Iterator;
 
 import com.redmintie.steelplate.render.Canvas;
-import com.redmintie.steelplate.util.Array;
 import com.redmintie.steelplate.util.Point;
+import com.redmintie.steelplate.util.array.Stack;
 
 public class Entity implements Iterable<Entity> {
 	public Point position = new Point();
 	public double angle;
 	public int width;
 	public int height;
-	private boolean relative;
+	public boolean relative;
 	private Entity parent;
-	private Array<Entity> children = new Array<Entity>();
+	private Stack<Entity> children = new Stack<Entity>();
 	public boolean testOverlap(Entity other) {
 		double x = getTrueX();
 		double y = getTrueY();
@@ -23,9 +23,6 @@ public class Entity implements Iterable<Entity> {
 				&& x + width / 2 > ox - other.width / 2
 				&& y - height / 2 < oy + other.height / 2
 				&& y + height / 2 > oy - other.height / 2;
-	}
-	public void setRelative(boolean relative) {
-		this.relative = relative;
 	}
 	public boolean isRelative() {
 		return relative;
@@ -74,22 +71,15 @@ public class Entity implements Iterable<Entity> {
 			child.end();
 		}
 	}
-	public int addChild(Entity child) {
+	public Entity getParent() {
+		return parent;
+	}
+	public void addChild(Entity child) {
 		child.parent = this;
-		return children.add(child);
+		children.push(child);
 	}
 	public int getChildCount() {
 		return children.size();
-	}
-	public Entity getChild(int id) {
-		return children.get(id);
-	}
-	public Entity removeChild(int id) {
-		Entity child = children.get(id);
-		if (child != null) {
-			removeChild(child);
-		}
-		return child;
 	}
 	public void removeChild(Entity child) {
 		child.parent = null;

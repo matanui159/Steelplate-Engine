@@ -11,13 +11,13 @@ import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
-import com.redmintie.steelplate.util.Array;
 import com.redmintie.steelplate.util.Map;
+import com.redmintie.steelplate.util.array.IDArray;
 
 public class JavaCanvas extends Canvas {
 	private Graphics2D g;
 	private AffineTransform reset = new AffineTransform();
-	private Array<AffineTransform> stack = new Array<AffineTransform>();
+	private IDArray<AffineTransform> stack = new IDArray<AffineTransform>();
 	private int current = -1;
 	private Map<Color, java.awt.Color> colors = new Map<Color, java.awt.Color>();
 	private int ascent;
