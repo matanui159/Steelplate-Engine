@@ -2,7 +2,7 @@ package com.redmintie.steelplate.input;
 
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.input.event.KeyListener;
-import com.redmintie.steelplate.util.array.IDArray;
+import com.redmintie.steelplate.util.array.MappedArray;
 
 public abstract class Keyboard {
 	// GENERATED CODE BEGINS HERE
@@ -204,7 +204,7 @@ public abstract class Keyboard {
 		}
 		return keyboard;
 	}
-	protected IDArray<KeyListener> listeners = new IDArray<KeyListener>();
+	protected MappedArray<KeyListener> listeners = new MappedArray<KeyListener>();
 	public abstract boolean isKeyDown(int key);
 	public void addKeyListener(KeyListener listener) {
 		listeners.add(listener);

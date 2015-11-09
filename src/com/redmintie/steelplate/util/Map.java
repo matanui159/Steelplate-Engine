@@ -2,11 +2,11 @@ package com.redmintie.steelplate.util;
 
 import java.util.Iterator;
 
-import com.redmintie.steelplate.util.array.IDArray;
+import com.redmintie.steelplate.util.array.MappedArray;
 
 public class Map<K, V> implements Iterable<K> {
-	private IDArray<K> keys = new IDArray<K>();
-	private IDArray<V> values = new IDArray<V>();
+	private MappedArray<K> keys = new MappedArray<K>();
+	private MappedArray<V> values = new MappedArray<V>();
 	public V set(K key, V value) {
 		int index = keys.indexOf(key);
 		if (index == -1) {
@@ -17,10 +17,10 @@ public class Map<K, V> implements Iterable<K> {
 	public V get(Object key) {
 		return values.get(keys.indexOf(key));
 	}
-	public IDArray<K> getKeys() {
+	public MappedArray<K> getKeys() {
 		return keys;
 	}
-	public IDArray<V> getValues() {
+	public MappedArray<V> getValues() {
 		return values;
 	}
 	public boolean containsKey(Object key) {

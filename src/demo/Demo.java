@@ -8,7 +8,7 @@ import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
-import com.redmintie.steelplate.util.array.IDArray;
+import com.redmintie.steelplate.util.array.MappedArray;
 
 public class Demo extends Game {
 	public static void main(String[] args) {
@@ -28,9 +28,9 @@ public class Demo extends Game {
 	
 	private Player player;
 	
-	private IDArray<Enemy> enemies = new IDArray<Enemy>();
+	private MappedArray<Enemy> enemies = new MappedArray<Enemy>();
 	
-	private IDArray<Star> stars = new IDArray<Star>();
+	private MappedArray<Star> stars = new MappedArray<Star>();
 	private int score;
 	
 	@Override

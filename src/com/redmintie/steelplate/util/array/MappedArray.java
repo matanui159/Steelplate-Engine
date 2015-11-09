@@ -3,7 +3,7 @@ package com.redmintie.steelplate.util.array;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class IDArray<E> implements Array<E> {
+public class MappedArray<E> implements Array<E> {
 	private Object[] array = new Object[1];
 	private int i;
 	private int size;
