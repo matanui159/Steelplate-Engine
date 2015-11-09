@@ -13,9 +13,11 @@ public class Res {
 	public static Image background;
 	public static Image player;
 	public static Image[] damage;
+	public static Image[] shield;
 	public static Image laser;
 	public static Image enemy;
 	public static Image star;
+	public static Image[] powers;
 	public static Image[] numbers;
 	public static Image life;
 	
@@ -28,9 +30,20 @@ public class Res {
 				Image.loadImage("res/images/damage/1.png"),
 				Image.loadImage("res/images/damage/2.png"),
 		};
+		shield = new Image[] {
+				Image.loadImage("res/images/shield/1.png"),
+				Image.loadImage("res/images/shield/2.png"),
+				Image.loadImage("res/images/shield/3.png")
+		};
 		laser = Image.loadImage("res/images/laser.png");
 		enemy = Image.loadImage("res/images/enemy.png");
 		star = Image.loadImage("res/images/star.png");
+		powers = new Image[] {
+				Image.loadImage("res/images/powerups/shield.png"),
+				Image.loadImage("res/images/powerups/star.png"),
+				Image.loadImage("res/images/powerups/rapidfire.png"),
+				Image.loadImage("res/images/powerups/pill.png")
+		};
 		numbers = new Image[] {
 				Image.loadImage("res/images/numbers/0.png"),
 				Image.loadImage("res/images/numbers/1.png"),

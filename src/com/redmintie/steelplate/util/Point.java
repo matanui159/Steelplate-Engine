@@ -105,7 +105,7 @@ public class Point {
 		return Math.toDegrees(Math.atan2(y, x));
 	}
 	public double getDistanceTo(double x, double y) {
-		return Math.sqrt((x - this.x) * (x - this.x) + (y - this.y) * (y - this.y));
+		return Math.sqrt((x -= this.x) * x + (y -= this.y) * y);
 	}
 	public double getDistanceTo(Point other) {
 		return getDistanceTo(other.x, other.y);

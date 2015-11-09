@@ -10,8 +10,8 @@ import com.redmintie.steelplate.util.ease.EaseOut;
 
 public class Player extends Entity {
 	private EaseOut ease = new EaseOut(100, -100, 1, 2);
-//	public Array<Laser> lasers = new Array<Laser>();
 	public int lives = 3;
+	public int shield = 0;
 	public Player() {
 		position.x = Game.getGameInstance().getWidth() / 2;
 		width = Res.player.getWidth();
@@ -45,7 +45,6 @@ public class Player extends Entity {
 			}
 		}
 		for (Entity laser : this) {
-//			laser.update(delta);
 			if (laser.position.y < -100) {
 				removeChild(laser);
 			}
@@ -53,17 +52,13 @@ public class Player extends Entity {
 	}
 	@Override
 	public void draw(Canvas canvas) {
-//		for (Laser laser : lasers) {
-//			laser.draw(canvas);
-//		}
-		
+		super.draw(canvas);
 		if (lives >= 0) {
-			super.draw(canvas);
 			canvas.drawImage(Res.player);
 			if (lives < 3) {
 				canvas.drawImage(Res.damage[lives], -1, -1);
 			}
-			canvas.resetMatrix();
 		}
+		canvas.resetMatrix();
 	}
 }

@@ -72,7 +72,11 @@ public class Demo extends Game {
 		for (Enemy enemy : enemies) {
 			enemy.update(delta);
 			if (player.lives >= 0 && enemy.testOverlap(player)) {
-				player.lives--;
+				if (player.shield > 0) {
+					player.shield--;
+				} else {
+					player.lives--;
+				}
 				enemies.remove(enemy);
 			} else if (enemy.position.y > Game.getGameInstance().getHeight() + 100) {
 				enemies.remove(enemy);
@@ -116,18 +120,18 @@ public class Demo extends Game {
 		
 		player.draw(c);
 		
-		for (Enemy enemy : enemies) {
-			enemy.draw(c);
-		}
-		
-		for (Star star : stars) {
-			star.draw(c);
-		}
-		
 		canvas.drawImage(current);
 		Image buffer = old;
 		old = current;
 		current = buffer;
+		
+		for (Enemy enemy : enemies) {
+			enemy.draw(canvas);
+		}
+		
+		for (Star star : stars) {
+			star.draw(canvas);
+		}
 		
 		for (int i = 0; i < 8; i++) {
 			int j = score / (int)Math.pow(10, 7 - i);

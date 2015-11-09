@@ -19,6 +19,9 @@ public class Star extends Entity {
 	}
 	@Override
 	public void update(double delta) {
+		super.update(delta);
+		addChild(new Particle(Res.star, position, angle));
+		
 		fSpeed += 10 * delta;
 		position.add(speed.x * delta, speed.y * delta);
 		angle += aSpeed;
