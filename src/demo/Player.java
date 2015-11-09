@@ -44,11 +44,6 @@ public class Player extends Entity {
 				position.x = Game.getGameInstance().getWidth();
 			}
 		}
-		for (Entity laser : this) {
-			if (laser.position.y < -100) {
-				removeChild(laser);
-			}
-		}
 	}
 	@Override
 	public void draw(Canvas canvas) {
@@ -59,6 +54,5 @@ public class Player extends Entity {
 				canvas.drawImage(Res.damage[lives], -1, -1);
 			}
 		}
-		canvas.resetMatrix();
 	}
 }

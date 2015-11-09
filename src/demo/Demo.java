@@ -8,7 +8,6 @@ import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
-import com.redmintie.steelplate.util.array.MappedArray;
 
 public class Demo extends Game {
 	public static void main(String[] args) {
@@ -22,23 +21,22 @@ public class Demo extends Game {
 	
 	private double time;
 	
+	private Color clear = new Color(0, 0, 0, 0);
 	private Image old;
 	private Image current;
-	private Color clear = new Color(0, 0, 0, 0);
 	
-	private Player player;
+	public static Player player;
+	private Entity enemies = new Entity();
 	
-	private MappedArray<Enemy> enemies = new MappedArray<Enemy>();
-	
-	private MappedArray<Star> stars = new MappedArray<Star>();
-	private int score;
+	public static Entity stars = new Entity();
+	public static int score;
 	
 	@Override
 	public void init() {
 		try {
-			Res.init();
 			old = Image.createImage(getWidth(), getHeight());
 			current = Image.createImage(getWidth(), getHeight());
+			Res.init();
 			player = new Player();
 		} catch (IOException|UnsupportedAudioFileException ex) {
 			ex.printStackTrace();
@@ -50,7 +48,7 @@ public class Demo extends Game {
 		time += delta * 2;
 		while (time >= 1) {
 			for (int i = 0; i < 3; i++) {
-				enemies.add(new Enemy());
+				enemies.addChild(new Enemy());
 			}
 			time -= 1;
 		}
@@ -68,38 +66,8 @@ public class Demo extends Game {
 		}
 		
 		player.update(delta);
-		
-		for (Enemy enemy : enemies) {
-			enemy.update(delta);
-			if (player.lives >= 0 && enemy.testOverlap(player)) {
-				if (player.shield > 0) {
-					player.shield--;
-				} else {
-					player.lives--;
-				}
-				enemies.remove(enemy);
-			} else if (enemy.position.y > Game.getGameInstance().getHeight() + 100) {
-				enemies.remove(enemy);
-			} else {
-				for (Entity laser : player) {
-					if (laser.testOverlap(enemy)) {
-						for (int i = 0; i < 30; i++) {
-							stars.add(new Star(enemy.position));
-						}
-						player.removeChild(laser);
-						enemies.remove(enemy);
-					}
-				}
-			}
-		}
-		
-		for (Star star : stars) {
-			star.update(delta);
-			if (star.position.x == -100 && star.position.y == -100) {
-				score++;
-				stars.remove(star);
-			}
-		}
+		enemies.update(delta);
+		stars.update(delta);
 	}
 	@Override
 	public void draw(Canvas canvas) {
@@ -119,19 +87,13 @@ public class Demo extends Game {
 		c.setAlpha(255);
 		
 		player.draw(c);
+		enemies.draw(c);
+		stars.draw(c);
 		
 		canvas.drawImage(current);
 		Image buffer = old;
 		old = current;
 		current = buffer;
-		
-		for (Enemy enemy : enemies) {
-			enemy.draw(canvas);
-		}
-		
-		for (Star star : stars) {
-			star.draw(canvas);
-		}
 		
 		for (int i = 0; i < 8; i++) {
 			int j = score / (int)Math.pow(10, 7 - i);

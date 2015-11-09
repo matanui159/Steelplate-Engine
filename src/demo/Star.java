@@ -20,17 +20,19 @@ public class Star extends Entity {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
-		addChild(new Particle(Res.star, position, angle));
-		
 		fSpeed += 10 * delta;
 		position.add(speed.x * delta, speed.y * delta);
 		angle += aSpeed;
 		position.moveTowards(-100, -100, fSpeed);
+		
+		if (position.x == -100 && position.y == -100) {
+			Demo.score++;
+			getParent().removeChild(this);
+		}
 	}
 	@Override
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 		canvas.drawImage(Res.star);
-		canvas.resetMatrix();
 	}
 }
