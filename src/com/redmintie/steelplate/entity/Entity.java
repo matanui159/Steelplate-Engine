@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Point;
-import com.redmintie.steelplate.util.array.StandardArray;
 
 public class Entity implements Iterable<Entity> {
 	public Point position = new Point();
@@ -12,8 +11,15 @@ public class Entity implements Iterable<Entity> {
 	public int width;
 	public int height;
 	public boolean relative;
+	
 	private Entity parent;
-	private StandardArray<Entity> children = new StandardArray<Entity>();
+	private Entity children;
+	private Entity last;
+	private int count;
+	private Entity prev;
+	private Entity next;
+	private EntityIterator iterator;
+	
 	public boolean testOverlap(Entity other) {
 		double x = getTrueX();
 		double y = getTrueY();
@@ -46,8 +52,11 @@ public class Entity implements Iterable<Entity> {
 		return angle;
 	}
 	public void update(double delta) {
-		for (Entity child : children) {
-			child.update(delta);
+		Entity child = children;
+		while (child != null) {
+			Entity c = child;
+			child = child.next;
+			c.update(delta);
 		}
 	}
 	public void draw(Canvas canvas) {
@@ -57,37 +66,84 @@ public class Entity implements Iterable<Entity> {
 		canvas.translate(position.x, position.y);
 		canvas.rotate(angle);
 		canvas.translate(-width / 2, -height / 2);
-		for (Entity child : children) {
+		Entity child = children;
+		while (child != null) {
+			Entity c = child;
+			child = child.next;
 			canvas.pushMatrix();
-			child.draw(canvas);
+			c.draw(canvas);
 			canvas.popMatrix();
 		}
 	}
 	public void end() {
-		for (Entity child : children) {
-			child.end();
-		}
-		children.clear();
+		clearChildren();
 	}
 	public Entity getParent() {
 		return parent;
 	}
 	public void addChild(Entity child) {
 		child.parent = this;
-		children.add(child);
+		if (last == null) {
+			children = child;
+		} else {
+			last.next = child;
+			child.prev = last;
+		}
+		last = child;
+		count++;
 	}
 	public int getChildCount() {
-		return children.size();
+		return count;
 	}
 	public void removeChild(Entity child) {
-		child.parent = null;
-		children.remove(child);
+		if (child.parent == this) {
+			if (child.prev == null) {
+				children = child.next;
+			} else {
+				child.prev.next = child.next;
+			}
+			if (child.next == null) {
+				last = child.prev;
+			} else {
+				child.next.prev = child.prev;
+			}
+			child.parent = child.prev = child.next = null;
+			count--;
+		}
 	}
 	public void clearChildren() {
-		children.clear();
+		Entity child = children;
+		while (child != null) {
+			child.end();
+			Entity next = child.next;
+			child.parent = child.prev = child.next = null;
+			child = next;
+		}
+		children = last = null;
+		count = 0;
 	}
 	@Override
 	public Iterator<Entity> iterator() {
-		return children.iterator();
+		if (iterator == null) {
+			iterator = new EntityIterator();
+		}
+		iterator.child = children;
+		return iterator;
+	}
+	private class EntityIterator implements Iterator<Entity> {
+		private Entity child;
+		@Override
+		public boolean hasNext() {
+			return child != null;
+		}
+		@Override
+		public Entity next() {
+			if (hasNext()) {
+				Entity c = child;
+				child = child.next;
+				return c;
+			}
+			return null;
+		}
 	}
 }
