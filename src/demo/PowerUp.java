@@ -20,6 +20,9 @@ public class PowerUp extends DownMovingEntity {
 	@Override
 	public void update(double delta) {
 		super.update(delta);
+		if (getParent() == null) {
+			return;
+		}
 		angle += speed * delta;
 		
 		Player player = Demo.player;

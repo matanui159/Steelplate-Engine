@@ -14,6 +14,9 @@ public class Enemy extends DownMovingEntity {
 			delta /= 2;
 		}
 		super.update(delta);
+		if (getParent() == null) {
+			return;
+		}
 		
 		Player player = Demo.player;
 		if (player.lives >= 0 && player.testOverlap(this)) {
