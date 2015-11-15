@@ -34,7 +34,7 @@ public abstract class Window implements Device {
 		if (time == -1) {
 			time = System.currentTimeMillis();
 		}
-		double delta =  (System.currentTimeMillis() - time) / 1000.0;
+		double delta = (System.currentTimeMillis() - time) / 1000.0;
 		time = System.currentTimeMillis();
 		return delta;
 	}

@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Point;
-import com.redmintie.steelplate.util.array.Stack;
+import com.redmintie.steelplate.util.array.StandardArray;
 
 public class Entity implements Iterable<Entity> {
 	public Point position = new Point();
@@ -13,7 +13,7 @@ public class Entity implements Iterable<Entity> {
 	public int height;
 	public boolean relative;
 	private Entity parent;
-	private Stack<Entity> children = new Stack<Entity>();
+	private StandardArray<Entity> children = new StandardArray<Entity>();
 	public boolean testOverlap(Entity other) {
 		double x = getTrueX();
 		double y = getTrueY();
@@ -67,13 +67,14 @@ public class Entity implements Iterable<Entity> {
 		for (Entity child : children) {
 			child.end();
 		}
+		children.clear();
 	}
 	public Entity getParent() {
 		return parent;
 	}
 	public void addChild(Entity child) {
 		child.parent = this;
-		children.push(child);
+		children.add(child);
 	}
 	public int getChildCount() {
 		return children.size();

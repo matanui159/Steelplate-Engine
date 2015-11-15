@@ -5,8 +5,8 @@ import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Point;
 
 public class Star extends Entity {
-	private Point speed = new Point(0, 0);
-	private double aSpeed = Math.random() * 20 - 10;
+	private Point speed = new Point(0, 0).moveAtAngle(0, Math.random() * 300, Math.random() * 360);
+	private double aSpeed = Math.random() * 360 - 180;
 	private double fSpeed;
 	public Star(Point pos) {
 		position.set(pos);
@@ -14,15 +14,13 @@ public class Star extends Entity {
 		
 		width = Res.star.getWidth();
 		height = Res.star.getHeight();
-		
-		speed.moveAtAngle(0, Math.random() * 300, Math.random() * 360);
 	}
 	@Override
 	public void update(double delta) {
 		super.update(delta);
 		fSpeed += 10 * delta;
 		position.add(speed.x * delta, speed.y * delta);
-		angle += aSpeed;
+		angle += aSpeed * delta;
 		position.moveTowards(-100, -100, fSpeed);
 		
 		if (position.x == -100 && position.y == -100) {

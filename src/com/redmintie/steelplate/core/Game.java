@@ -96,9 +96,12 @@ public abstract class Game {
 		window.begin();
 		long start = System.currentTimeMillis();
 		init();
-		try {
-			Thread.sleep(2000 - (System.currentTimeMillis() - start));
-		} catch (InterruptedException ex) {}
+		long time = System.currentTimeMillis() - start;
+		if (time < 2000) {
+			try {
+				Thread.sleep(2000 - time);
+			} catch (InterruptedException ex) {}
+		}
 		window.loop();
 	}
 	

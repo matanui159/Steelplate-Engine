@@ -20,6 +20,7 @@ public class Demo extends Game {
 	}
 	
 	private double time;
+	private int count;
 	
 	private Color clear = new Color(0, 0, 0, 0);
 	private Image old;
@@ -27,8 +28,9 @@ public class Demo extends Game {
 	
 	public static Player player;
 	private Entity enemies = new Entity();
-	
+	private Entity powerups = new Entity();
 	public static Entity stars = new Entity();
+	
 	public static int score;
 	
 	@Override
@@ -51,6 +53,11 @@ public class Demo extends Game {
 				enemies.addChild(new Enemy());
 			}
 			time -= 1;
+			count++;
+			if (count == 5) {
+				powerups.addChild(new PowerUp());
+				count = 0;
+			}
 		}
 		
 		if (old.getWidth() != getWidth() || old.getHeight() != getHeight()) {
@@ -67,6 +74,7 @@ public class Demo extends Game {
 		
 		player.update(delta);
 		enemies.update(delta);
+		powerups.update(delta);
 		stars.update(delta);
 	}
 	@Override
@@ -88,6 +96,7 @@ public class Demo extends Game {
 		
 		player.draw(c);
 		enemies.draw(c);
+		powerups.draw(c);
 		stars.draw(c);
 		
 		canvas.drawImage(current);
