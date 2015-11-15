@@ -3,7 +3,6 @@ package com.redmintie.steelplate.device.java;
 import javax.swing.JFrame;
 
 import com.redmintie.steelplate.input.Keyboard;
-import com.redmintie.steelplate.input.event.Event;
 import com.redmintie.steelplate.input.event.KeyEvent;
 import com.redmintie.steelplate.input.event.KeyListener;
 
@@ -12,18 +11,9 @@ public class JavaKeyboard extends Keyboard {
 	public JavaKeyboard(JFrame frame) {
 		frame.addKeyListener(new java.awt.event.KeyListener() {
 			private KeyEvent createEvent(java.awt.event.KeyEvent e) {
-				int mods = 0;
-				if (e.isControlDown()) {
-					mods |= Event.CTRL_MASK;
-				}
-				if (e.isAltDown()) {
-					mods |= Event.ALT_MASK;
-				}
-				if (e.isShiftDown()) {
-					mods |= Event.SHIFT_MASK;
-				}
 				return new KeyEvent(e.getKeyCode(), e.getKeyChar(),
-						e.getID() == java.awt.event.KeyEvent.KEY_PRESSED, mods);
+						e.getID() == java.awt.event.KeyEvent.KEY_PRESSED,
+						JavaUtil.getEventMods(e));
 			}
 			@Override
 			public void keyPressed(java.awt.event.KeyEvent e) {

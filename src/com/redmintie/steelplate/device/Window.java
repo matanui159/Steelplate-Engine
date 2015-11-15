@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.input.Keyboard;
+import com.redmintie.steelplate.input.Mouse;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
@@ -59,6 +60,7 @@ public abstract class Window implements Device {
 		background = keep ? createImage(getWidth(), getHeight()) : null;
 	}
 	public abstract Keyboard getKeyboard();
+	public abstract Mouse getMouse();
 	public abstract Image loadImage(BufferedImage image);
 	public abstract Image createImage(int width, int height);
 	public abstract Font loadFont(java.awt.Font font);

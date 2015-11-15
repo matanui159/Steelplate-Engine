@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.device.Window;
 import com.redmintie.steelplate.input.Keyboard;
+import com.redmintie.steelplate.input.Mouse;
 import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
 
@@ -93,6 +94,10 @@ public class JavaWindow extends Window {
 	@Override
 	public Keyboard getKeyboard() {
 		return new JavaKeyboard(frame);
+	}
+	@Override
+	public Mouse getMouse() {
+		return new JavaMouse(panel);
 	}
 	@Override
 	public Image loadImage(BufferedImage image) {

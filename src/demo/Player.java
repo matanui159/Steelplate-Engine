@@ -3,9 +3,11 @@ package demo;
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.input.Keyboard;
-import com.redmintie.steelplate.input.event.KeyAdapter;
-import com.redmintie.steelplate.input.event.KeyEvent;
+import com.redmintie.steelplate.input.Mouse;
+import com.redmintie.steelplate.input.event.MouseAdapter;
+import com.redmintie.steelplate.input.event.MouseEvent;
 import com.redmintie.steelplate.render.Canvas;
+import com.redmintie.steelplate.util.Point;
 import com.redmintie.steelplate.util.ease.EaseOut;
 
 public class Player extends Entity {
@@ -17,21 +19,23 @@ public class Player extends Entity {
 	public double reload;
 	public int count;
 	
+	private Point buffer = new Point();
+	
 	public Player() {
 		position.x = Game.getGameInstance().getWidth() / 2;
 		width = Res.player.getWidth();
 		height = Res.player.getHeight();
 		
-		Keyboard.getKeyboard().addKeyListener(new KeyAdapter() {
+		Mouse.getMouse().addMouseListener(new MouseAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-				if (lives >= 0 && e.getKey() == Keyboard.KEY_SPACE) {
+			public void mouseButtonPressed(MouseEvent e) {
+				if (lives >= 0 && e.getMouseButton() == Mouse.BUTTON1) {
 					reload = 0;
 					if (count != -1) {
 						count = 0;
 					}
 					Res.laserSound.play();
-					addChild(new Laser(position, e.isKeyDown(Keyboard.KEY_CONTROL)));
+					addChild(new Laser(position, angle));
 				}
 			}
 		});
@@ -41,25 +45,26 @@ public class Player extends Entity {
 		super.update(delta);
 		position.y = Game.getGameInstance().getHeight() + ease.update(delta);
 		
-		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_LEFT)) {
+		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_A)) {
 			position.add(-500 * delta, 0);
 			if (position.x < 0) {
 				position.x = 0;
 			}
 		}
-		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_RIGHT)) {
+		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_D)) {
 			position.add(500 * delta, 0);
 			if (position.x > Game.getGameInstance().getWidth()) {
 				position.x = Game.getGameInstance().getWidth();
 			}
 		}
+		angle = buffer.set(position).getAngleTo(Mouse.getMouse().getX(), Mouse.getMouse().getY()) + 90;
 		
-		if (lives >= 0 && Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_SPACE)) {
+		if (lives >= 0 && Mouse.getMouse().isButtonDown(Mouse.BUTTON1)) {
 			reload += delta;
 			while (reload >= 0.1) {
 				if (ammo > 0 && count < 4) {
 					Res.laserSound.play();
-					addChild(new Laser(position, Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_CONTROL)));
+					addChild(new Laser(position, angle));
 					ammo--;
 					if (count != -1) {
 						count++;

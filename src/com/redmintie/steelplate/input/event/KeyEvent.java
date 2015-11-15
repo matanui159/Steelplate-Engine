@@ -16,6 +16,9 @@ public class KeyEvent extends Event {
 	public char getChar() {
 		return c;
 	}
+	public boolean isKeyDown() {
+		return down;
+	}
 	@Override
 	public boolean isKeyDown(int key) {
 		if (down && key == this.key) {
