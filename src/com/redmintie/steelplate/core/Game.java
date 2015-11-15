@@ -94,9 +94,9 @@ public abstract class Game {
 	 */
 	public void begin() {
 		window.begin();
-		long start = System.currentTimeMillis();
+		long start = System.nanoTime();
 		init();
-		long time = System.currentTimeMillis() - start;
+		long time = (System.nanoTime() - start) / (int)1e6;
 		if (time < 2000) {
 			try {
 				Thread.sleep(2000 - time);

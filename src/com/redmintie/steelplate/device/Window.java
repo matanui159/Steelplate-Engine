@@ -32,10 +32,10 @@ public abstract class Window implements Device {
 	public abstract void loop();
 	public double getDelta() {
 		if (time == -1) {
-			time = System.currentTimeMillis();
+			time = System.nanoTime();
 		}
-		double delta = (System.currentTimeMillis() - time) / 1000.0;
-		time = System.currentTimeMillis();
+		double delta = (System.nanoTime() - time) / 1e9;
+		time = System.nanoTime();
 		return delta;
 	}
 	public void draw(Canvas canvas) {
