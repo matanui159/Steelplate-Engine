@@ -9,8 +9,7 @@ import com.redmintie.steelplate.util.Point;
 public class Laser extends Entity {
 	public Laser(Point position, boolean side) {
 		this.position.set(position);
-		width = Res.laser.getWidth();
-		height = Res.laser.getHeight();
+		width = height = Res.laser.getWidth();
 		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_LEFT)) {
 			angle -= side ? 90 : 30;
 		}

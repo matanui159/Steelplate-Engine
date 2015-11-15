@@ -22,6 +22,8 @@ public class Res {
 	public static Image life;
 	
 	public static Sound laserSound;
+	public static Sound upSound;
+	public static Sound downSound;
 	public static void init() throws IOException, UnsupportedAudioFileException {
 		background = Image.loadImage("res/images/background.png");
 		player = Image.loadImage("res/images/player.png");
@@ -31,6 +33,7 @@ public class Res {
 				Image.loadImage("res/images/damage/2.png"),
 		};
 		shield = new Image[] {
+				null,
 				Image.loadImage("res/images/shield/1.png"),
 				Image.loadImage("res/images/shield/2.png"),
 				Image.loadImage("res/images/shield/3.png")
@@ -42,6 +45,7 @@ public class Res {
 				Image.loadImage("res/images/powerups/shield.png"),
 				Image.loadImage("res/images/powerups/star.png"),
 				Image.loadImage("res/images/powerups/rapidfire.png"),
+				Image.loadImage("res/images/powerups/burst.png"),
 				Image.loadImage("res/images/powerups/pill.png")
 		};
 		numbers = new Image[] {
@@ -59,5 +63,7 @@ public class Res {
 		life = Image.loadImage("res/images/life.png");
 		
 		laserSound = Sound.loadSound("res/sounds/laser.wav");
+		upSound = Sound.loadSound("res/sounds/up.wav");
+		downSound = Sound.loadSound("res/sounds/down.wav");
 	}
 }

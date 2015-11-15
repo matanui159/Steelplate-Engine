@@ -32,6 +32,7 @@ public class Demo extends Game {
 	public static Entity stars = new Entity();
 	
 	public static int score;
+	public static double pill;
 	
 	@Override
 	public void init() {
@@ -47,6 +48,10 @@ public class Demo extends Game {
 	}
 	@Override
 	public void update(double delta) {
+		if (pill > 0) {
+			pill -= delta;
+		}
+		
 		time += delta * 2;
 		while (time >= 1) {
 			for (int i = 0; i < 3; i++) {

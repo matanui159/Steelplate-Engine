@@ -12,6 +12,11 @@ public class Player extends Entity {
 	private EaseOut ease = new EaseOut(100, -100, 1, 2);
 	public int lives = 3;
 	public int shield = 0;
+	
+	public int ammo;
+	public double reload;
+	public int count;
+	
 	public Player() {
 		position.x = Game.getGameInstance().getWidth() / 2;
 		width = Res.player.getWidth();
@@ -21,6 +26,10 @@ public class Player extends Entity {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (lives >= 0 && e.getKey() == Keyboard.KEY_SPACE) {
+					reload = 0;
+					if (count != -1) {
+						count = 0;
+					}
 					Res.laserSound.play();
 					addChild(new Laser(position, e.isKeyDown(Keyboard.KEY_CONTROL)));
 				}
@@ -44,6 +53,21 @@ public class Player extends Entity {
 				position.x = Game.getGameInstance().getWidth();
 			}
 		}
+		
+		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_SPACE)) {
+			reload += delta;
+			while (reload >= 0.1) {
+				if (ammo > 0 && count < 4) {
+					Res.laserSound.play();
+					addChild(new Laser(position, Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_CONTROL)));
+					ammo--;
+					if (count != -1) {
+						count++;
+					}
+				}
+				reload -= 0.1;
+			}
+		}
 	}
 	@Override
 	public void draw(Canvas canvas) {
@@ -52,6 +76,9 @@ public class Player extends Entity {
 			canvas.drawImage(Res.player);
 			if (lives < 3) {
 				canvas.drawImage(Res.damage[lives], -1, -1);
+			}
+			if (shield > 0) {
+				canvas.drawImage(Res.shield[shield], -23, -31);
 			}
 		}
 	}
