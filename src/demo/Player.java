@@ -54,7 +54,7 @@ public class Player extends Entity {
 			}
 		}
 		
-		if (Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_SPACE)) {
+		if (lives >= 0 && Keyboard.getKeyboard().isKeyDown(Keyboard.KEY_SPACE)) {
 			reload += delta;
 			while (reload >= 0.1) {
 				if (ammo > 0 && count < 4) {
