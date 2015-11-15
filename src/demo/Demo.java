@@ -117,8 +117,12 @@ public class Demo extends Game {
 			canvas.drawImage(Res.numbers[j], i * 30 + 10, 10);
 		}
 		
-		for (int i = 0; i < player.lives; i++) {
-			canvas.drawImage(Res.life, i * 50 + 10, 40);
+		for (int i = 0; i < player.lives + player.shield; i++) {
+			if (i < player.lives) {
+				canvas.drawImage(Res.life, i * 50 + 10, 40);
+			} else {
+				canvas.drawImage(Res.shield, i * 50 + 10, 40);
+			}
 		}
 	}
 	@Override

@@ -12,6 +12,8 @@ import com.redmintie.steelplate.util.ease.EaseOut;
 
 public class Player extends Entity {
 	private EaseOut ease = new EaseOut(100, -100, 1, 2);
+	private Point buffer = new Point();
+	
 	public int lives = 3;
 	public int shield = 0;
 	
@@ -19,10 +21,9 @@ public class Player extends Entity {
 	public double reload;
 	public int count;
 	
-	private Point buffer = new Point();
-	
 	public Player() {
 		position.x = Game.getGameInstance().getWidth() / 2;
+		position.y = Game.getGameInstance().getHeight() - 100;
 		width = Res.player.getWidth();
 		height = Res.player.getHeight();
 		
@@ -83,7 +84,7 @@ public class Player extends Entity {
 				canvas.drawImage(Res.damage[lives], -1, -1);
 			}
 			if (shield > 0) {
-				canvas.drawImage(Res.shield[shield], -23, -31);
+				canvas.drawImage(Res.shields[shield], -23, -31);
 			}
 		}
 	}

@@ -19,22 +19,25 @@ public class JavaKeyboard extends Keyboard {
 			public void keyPressed(java.awt.event.KeyEvent e) {
 				if (!keys[e.getKeyCode()]) {
 					keys[e.getKeyCode()] = true;
+					KeyEvent event = createEvent(e);
 					for (KeyListener listener : listeners) {
-						listener.keyPressed(createEvent(e));
+						listener.keyPressed(event);
 					}
 				}
 			}
 			@Override
 			public void keyReleased(java.awt.event.KeyEvent e) {
 				keys[e.getKeyCode()] = false;
+				KeyEvent event = createEvent(e);
 				for (KeyListener listener : listeners) {
-					listener.keyReleased(createEvent(e));
+					listener.keyReleased(event);
 				}
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent e) {
+				KeyEvent event = createEvent(e);
 				for (KeyListener listener : listeners) {
-					listener.keyTyped(createEvent(e));
+					listener.keyTyped(event);
 				}
 			}
 		});
