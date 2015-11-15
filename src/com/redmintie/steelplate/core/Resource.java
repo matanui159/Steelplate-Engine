@@ -21,24 +21,28 @@ public class Resource {
 		}
 		return stream;
 	}
-	private static void loadData() throws IOException {
+	private static void loadData() {
 		if (stringData == null) {
-			stringData = new Map<String, String>();
-			numberData = new Map<String, Double>();
+			try {
+				stringData = new Map<String, String>();
+				numberData = new Map<String, Double>();
 			
-			DataInputStream stream = new DataInputStream(new FileInputStream("data.dat"));
-			while (stream.available() > 0) {
-				String name = stream.readUTF();
-				if (stream.readBoolean()) {
-					numberData.set(name, stream.readDouble());
-				} else {
-					stringData.set(name, stream.readUTF());
+				DataInputStream stream = new DataInputStream(new FileInputStream("data.dat"));
+				while (stream.available() > 0) {
+					String name = stream.readUTF();
+					if (stream.readBoolean()) {
+						numberData.set(name, stream.readDouble());
+					} else {
+						stringData.set(name, stream.readUTF());
+					}
 				}
+				stream.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
 			}
-			stream.close();
 		}
 	}
-	private static void saveData() throws IOException {
+	public static void saveData() throws IOException {
 		loadData();
 		DataOutputStream stream = new DataOutputStream(new FileOutputStream("data.dat"));
 		for (String name : stringData) {
@@ -53,21 +57,21 @@ public class Resource {
 		}
 		stream.close();
 	}
-	public synchronized static String loadString(String name) throws IOException {
+	public synchronized static String loadString(String name, String def) {
 		loadData();
-		return stringData.get(name);
+		String value = stringData.get(name);
+		return value == null ? def : value;
 	}
-	public synchronized static void saveString(String name, String value) throws IOException {
+	public synchronized static void saveString(String name, String value) {
 		stringData.set(name, value);
-		saveData();
 	}
-	public synchronized static double loadNumber(String name) throws IOException {
+	public synchronized static double loadNumber(String name, double def) {
 		loadData();
-		return numberData.get(name);
+		Double value = numberData.get(name);
+		return value == null ? def : value;
 	}
-	public synchronized static void saveNumber(String name, double value) throws IOException {
+	public synchronized static void saveNumber(String name, double value) {
 		numberData.set(name, value);
-		saveData();
 	}
 	public static Device loadDevice(String list) {
 		Scanner scanner = null;

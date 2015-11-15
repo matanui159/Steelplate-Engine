@@ -4,6 +4,7 @@ import java.io.IOException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.redmintie.steelplate.core.Game;
+import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
@@ -127,6 +128,12 @@ public class Demo extends Game {
 	}
 	@Override
 	public void close() {
+		try {
+			Resource.saveNumber("x", player.position.x);
+			Resource.saveData();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 		end();
 	}
 }
