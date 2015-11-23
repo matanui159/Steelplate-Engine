@@ -9,6 +9,7 @@ import com.redmintie.steelplate.multithread.MultiThreadListener;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
+import com.redmintie.steelplate.sound.Sound;
 
 public class Demo extends Game {
 	public static void main(String[] args) {
@@ -42,11 +43,16 @@ public class Demo extends Game {
 	@Override
 	public void init() {
 		try {
+			Sound song = Sound.loadSound("res/song.ogg");
+			song.setLoopEnabled(true);
+			song.setVolume(0.1);
+			song.play();
+			
 			old = Image.createImage(getWidth(), getHeight());
 			current = Image.createImage(getWidth(), getHeight());
 			Res.init();
 			player = new Player();
-		} catch (IOException ex) {
+		} catch (IOException|DeviceException ex) {
 			ex.printStackTrace();
 			end();
 		}

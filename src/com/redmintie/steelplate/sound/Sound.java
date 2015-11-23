@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -35,8 +36,22 @@ public abstract class Sound implements Device {
 				data.reset();
 				System.out.println("IS WAV: " + wav);
 				
+				AudioInputStream stream = AudioSystem.getAudioInputStream(data);
+				AudioFormat format = stream.getFormat();
+				if (!wav) {
+					format = new AudioFormat(
+							AudioFormat.Encoding.PCM_SIGNED,
+							format.getSampleRate(),
+							16,
+							format.getChannels(),
+							format.getChannels() * 2,
+							format.getSampleRate(),
+							false);
+					stream = AudioSystem.getAudioInputStream(format, stream);
+				}
+				
 				sound = (Sound)Resource.loadDevice("com/redmintie/steelplate/res/devices/soundDevices.list");
-				sound.loadData(AudioSystem.getAudioInputStream(data));
+				sound.loadData(stream, format);
 				sounds.set(name, sound);
 			} catch (UnsupportedAudioFileException ex) {
 				throw new IOException(ex);
@@ -46,7 +61,7 @@ public abstract class Sound implements Device {
 	}
 	private double volume;
 	private boolean loop;
-	protected abstract void loadData(AudioInputStream data) throws IOException;
+	protected abstract void loadData(AudioInputStream stream, AudioFormat format) throws IOException;
 	public abstract void play();
 	public abstract void pause();
 	public abstract void resume();

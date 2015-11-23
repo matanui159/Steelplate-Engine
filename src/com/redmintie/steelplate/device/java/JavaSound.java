@@ -2,6 +2,7 @@ package com.redmintie.steelplate.device.java;
 
 import java.io.IOException;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -14,14 +15,14 @@ import com.redmintie.steelplate.sound.Sound;
 public class JavaSound extends Sound {
 	private Clip clip;
 	@Override
-	public void loadData(AudioInputStream data) throws IOException {
-		DataLine.Info info = new DataLine.Info(Clip.class, data.getFormat());
+	public void loadData(AudioInputStream stream, AudioFormat format) throws IOException {
+		DataLine.Info info = new DataLine.Info(Clip.class, format);
 		if (!AudioSystem.isLineSupported(info)) {
 			throw new IOException("Line type not supported.");
 		}
 		try {
 			clip = (Clip)AudioSystem.getLine(info);
-			clip.open(data);
+			clip.open(stream);
 		} catch (LineUnavailableException ex) {
 			throw new IOException(ex);
 		}
