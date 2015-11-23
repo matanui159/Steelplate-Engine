@@ -58,9 +58,6 @@ public class JavaSound extends Sound implements Runnable {
 			while (thread != null) {
 				while (thread != null && (length = audio.read(buffer)) != -1) {
 					((SourceDataLine)line).write(buffer, 0, length);
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException ex) {}
 				}
 				if (line.isRunning()) {
 					stop();
