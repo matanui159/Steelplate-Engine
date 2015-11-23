@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 
@@ -14,8 +15,12 @@ public class JavaSound extends Sound {
 	private Clip clip;
 	@Override
 	public void loadData(AudioInputStream data) throws IOException {
+		DataLine.Info info = new DataLine.Info(Clip.class, data.getFormat());
+		if (!AudioSystem.isLineSupported(info)) {
+			throw new IOException("Line type not supported.");
+		}
 		try {
-			clip = AudioSystem.getClip();
+			clip = (Clip)AudioSystem.getLine(info);
 			clip.open(data);
 		} catch (LineUnavailableException ex) {
 			throw new IOException(ex);
