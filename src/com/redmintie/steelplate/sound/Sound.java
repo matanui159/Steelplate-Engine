@@ -1,6 +1,7 @@
 package com.redmintie.steelplate.sound;
 
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
@@ -21,9 +22,21 @@ public abstract class Sound implements Device {
 		Sound sound = sounds.get(name);
 		if (sound == null) {
 			try {
+				DataInputStream data = new DataInputStream(new BufferedInputStream(
+						Resource.getResourceAsStream(name)));
+				data.mark(12);
+				boolean wav = false;
+				if (data.readInt() == RIFF) {
+					data.skip(4);
+					if (data.readInt() == WAVE) {
+						wav = true;
+					}
+				}
+				data.reset();
+				System.out.println("IS WAV: " + wav);
+				
 				sound = (Sound)Resource.loadDevice("com/redmintie/steelplate/res/devices/soundDevices.list");
-				sound.loadData(AudioSystem.getAudioInputStream(new BufferedInputStream(
-						Resource.getResourceAsStream(name))));
+				sound.loadData(AudioSystem.getAudioInputStream(data));
 				sounds.set(name, sound);
 			} catch (UnsupportedAudioFileException ex) {
 				throw new IOException(ex);
