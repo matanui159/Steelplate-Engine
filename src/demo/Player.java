@@ -1,7 +1,5 @@
 package demo;
 
-import java.io.IOException;
-
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.entity.Entity;
