@@ -7,13 +7,14 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import com.redmintie.steelplate.core.DeviceException;
 import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.device.Device;
 import com.redmintie.steelplate.util.Map;
 
 public abstract class Sound implements Device {
 	private static Map<String, Sound> sounds = new Map<String, Sound>();
-	public static Sound loadSound(String name) throws IOException {
+	public static Sound loadSound(String name) throws DeviceException, IOException {
 		Sound sound = sounds.get(name);
 		if (sound == null) {
 			try {

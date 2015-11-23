@@ -25,7 +25,7 @@ public class Enemy extends DownMovingEntity {
 			} else {
 				player.lives--;
 			}
-			Res.downSound.play();
+			Res.play(Res.downSound);
 			getParent().removeChild(this);
 		} else {
 			for (Entity laser : player) {

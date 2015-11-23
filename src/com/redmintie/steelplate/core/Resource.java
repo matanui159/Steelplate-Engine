@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 import com.redmintie.steelplate.device.Device;
+import com.redmintie.steelplate.multithread.MultiThreadAction;
+import com.redmintie.steelplate.multithread.MultiThreadListener;
 import com.redmintie.steelplate.util.Map;
 
 public class Resource {
@@ -42,7 +44,7 @@ public class Resource {
 			}
 		}
 	}
-	public static void saveData() throws IOException {
+	public synchronized static void saveData() throws IOException {
 		loadData();
 		DataOutputStream stream = new DataOutputStream(new FileOutputStream("data.dat"));
 		for (String name : stringData) {
@@ -57,23 +59,31 @@ public class Resource {
 		}
 		stream.close();
 	}
-	public synchronized static String loadString(String name, String def) {
+	public static void saveDataLater(MultiThreadListener listener) {
+		new MultiThreadAction(listener) {
+			@Override
+			public void doAction() throws IOException {
+				saveData();
+			}
+		}.start();
+	}
+	public static String loadString(String name, String def) {
 		loadData();
 		String value = stringData.get(name);
 		return value == null ? def : value;
 	}
-	public synchronized static void saveString(String name, String value) {
+	public static void saveString(String name, String value) {
 		stringData.set(name, value);
 	}
-	public synchronized static double loadNumber(String name, double def) {
+	public static double loadNumber(String name, double def) {
 		loadData();
 		Double value = numberData.get(name);
 		return value == null ? def : value;
 	}
-	public synchronized static void saveNumber(String name, double value) {
+	public static void saveNumber(String name, double value) {
 		numberData.set(name, value);
 	}
-	public static Device loadDevice(String list) {
+	public static Device loadDevice(String list) throws DeviceException {
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(getResourceAsStream(list));
@@ -86,7 +96,7 @@ public class Resource {
 					ex.printStackTrace();
 				}
 			}
-			throw new RuntimeException("No supported devices.");
+			throw new DeviceException("No supported devices.");
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			return null;
