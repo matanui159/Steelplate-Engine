@@ -13,6 +13,9 @@ import com.redmintie.steelplate.device.Device;
 import com.redmintie.steelplate.util.Map;
 
 public abstract class Sound implements Device {
+	private static final int RIFF = 0x52494646;
+	private static final int WAVE = 0x57415645;
+	
 	private static Map<String, Sound> sounds = new Map<String, Sound>();
 	public static Sound loadSound(String name) throws DeviceException, IOException {
 		Sound sound = sounds.get(name);
