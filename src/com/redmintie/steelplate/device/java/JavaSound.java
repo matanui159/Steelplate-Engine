@@ -28,14 +28,16 @@ public class JavaSound extends Sound {
 	}
 	@Override
 	public void play() {
-		clip.stop();
-		clip.flush();
-		clip.setFramePosition(0);
+		stop();
 		clip.start();
 	}
 	@Override
 	public void pause() {
 		clip.stop();
+	}
+	@Override
+	public void resume() {
+		clip.start();
 	}
 	@Override
 	public void stop() {

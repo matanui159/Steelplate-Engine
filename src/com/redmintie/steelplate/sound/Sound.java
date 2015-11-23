@@ -49,6 +49,7 @@ public abstract class Sound implements Device {
 	protected abstract void loadData(AudioInputStream data) throws IOException;
 	public abstract void play();
 	public abstract void pause();
+	public abstract void resume();
 	public abstract void stop();
 	public abstract boolean isPlaying();
 	public void setVolume(double volume) {
