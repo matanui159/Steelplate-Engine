@@ -13,13 +13,17 @@ import com.redmintie.steelplate.util.Map;
 
 public abstract class Sound implements Device {
 	private static Map<String, Sound> sounds = new Map<String, Sound>();
-	public static Sound loadSound(String name) throws IOException, UnsupportedAudioFileException {
+	public static Sound loadSound(String name) throws IOException {
 		Sound sound = sounds.get(name);
 		if (sound == null) {
-			sound = (Sound)Resource.loadDevice("com/redmintie/steelplate/res/devices/soundDevices.list");
-			sound.loadData(AudioSystem.getAudioInputStream(new BufferedInputStream(
-					Resource.getResourceAsStream(name))));
-			sounds.set(name, sound);
+			try {
+				sound = (Sound)Resource.loadDevice("com/redmintie/steelplate/res/devices/soundDevices.list");
+				sound.loadData(AudioSystem.getAudioInputStream(new BufferedInputStream(
+						Resource.getResourceAsStream(name))));
+				sounds.set(name, sound);
+			} catch (UnsupportedAudioFileException ex) {
+				throw new IOException(ex);
+			}
 		}
 		return sound;
 	}
