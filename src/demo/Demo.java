@@ -1,11 +1,11 @@
 package demo;
 import java.io.IOException;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
-
+import com.redmintie.steelplate.core.DeviceException;
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.entity.Entity;
+import com.redmintie.steelplate.multithread.MultiThreadListener;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
@@ -13,9 +13,13 @@ import com.redmintie.steelplate.render.Image;
 public class Demo extends Game {
 	public static void main(String[] args) {
 		System.setProperty("sun.java2d.opengl", "true");
-		new Demo();
+		try {
+			new Demo();
+		} catch (DeviceException ex) {
+			ex.printStackTrace();
+		}
 	}
-	public Demo() {
+	public Demo() throws DeviceException {
 		setTitle("Space Shooter");
 		begin();
 	}
@@ -42,7 +46,7 @@ public class Demo extends Game {
 			current = Image.createImage(getWidth(), getHeight());
 			Res.init();
 			player = new Player();
-		} catch (IOException|UnsupportedAudioFileException ex) {
+		} catch (IOException ex) {
 			ex.printStackTrace();
 			end();
 		}
@@ -128,12 +132,21 @@ public class Demo extends Game {
 	}
 	@Override
 	public void close() {
-		try {
-			Resource.saveNumber("x", player.position.x);
-			Resource.saveData();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
+		Resource.saveNumber("x", player.position.x);
+		Resource.saveDataLater(new MultiThreadListener() {
+			@Override
+			public void actionStarted() {
+				System.out.println("Saving...");
+			}
+			@Override
+			public void actionFinished() {
+				System.out.println("\tDone!");
+			}
+			@Override
+			public void actionFailed(Exception ex) {
+				ex.printStackTrace();
+			}
+		});
 		end();
 	}
 }

@@ -44,7 +44,7 @@ public class PowerUp extends DownMovingEntity {
 				player.count = -1;
 				break;
 			case BURST:
-				player.ammo = 40;
+				player.ammo = 20;
 				player.reload = 0;
 				player.count = 0;
 				break;
@@ -52,7 +52,7 @@ public class PowerUp extends DownMovingEntity {
 				Demo.pill = 3;
 				break;
 			}
-			Res.upSound.play();
+			Res.play(Res.upSound);
 			getParent().removeChild(this);
 		}
 	}

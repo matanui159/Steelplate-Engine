@@ -36,7 +36,7 @@ public class Player extends Entity {
 					if (count != -1) {
 						count = 0;
 					}
-					Res.laserSound.play();
+					Res.play(Res.laserSound);
 					addChild(new Laser(position, angle));
 				}
 			}
@@ -64,8 +64,8 @@ public class Player extends Entity {
 		if (lives >= 0 && Mouse.getMouse().isButtonDown(Mouse.BUTTON1)) {
 			reload += delta;
 			while (reload >= 0.1) {
-				if (ammo > 0 && count < 4) {
-					Res.laserSound.play();
+				if (ammo > 0 && count < 2) {
+					Res.play(Res.laserSound);
 					addChild(new Laser(position, angle));
 					ammo--;
 					if (count != -1) {

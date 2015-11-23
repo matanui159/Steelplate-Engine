@@ -2,8 +2,7 @@ package demo;
 
 import java.io.IOException;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
-
+import com.redmintie.steelplate.core.DeviceException;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
 import com.redmintie.steelplate.sound.Sound;
@@ -25,7 +24,7 @@ public class Res {
 	public static Sound laserSound;
 	public static Sound upSound;
 	public static Sound downSound;
-	public static void init() throws IOException, UnsupportedAudioFileException {
+	public static void init() throws IOException {
 		background = Image.loadImage("res/images/background.png");
 		player = Image.loadImage("res/images/player.png");
 		damage = new Image[] {
@@ -64,8 +63,17 @@ public class Res {
 		life = Image.loadImage("res/images/life.png");
 		shield = Image.loadImage("res/images/shield.png");
 		
-		laserSound = Sound.loadSound("res/sounds/laser.wav");
-		upSound = Sound.loadSound("res/sounds/up.wav");
-		downSound = Sound.loadSound("res/sounds/down.wav");
+		try {
+			laserSound = Sound.loadSound("res/sounds/laser.wav");
+			upSound = Sound.loadSound("res/sounds/up.wav");
+			downSound = Sound.loadSound("res/sounds/down.wav");
+		} catch (DeviceException|IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+	public static void play(Sound sound) {
+		if (sound != null) {
+			sound.play();
+		}
 	}
 }

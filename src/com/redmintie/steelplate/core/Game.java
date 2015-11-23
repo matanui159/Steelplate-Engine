@@ -57,7 +57,7 @@ public abstract class Game {
 	 * 
 	 * @throws RuntimeException If there is already a game instance.
 	 */
-	public Game() {
+	public Game() throws DeviceException {
 		if (instance != null) {
 			throw new RuntimeException("There can only be one game instance.");
 		}
