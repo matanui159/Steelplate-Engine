@@ -43,7 +43,7 @@ public class Demo extends Game {
 	@Override
 	public void init() {
 		try {
-			Sound song = Sound.loadSound("res/song.ogg");
+			Sound song = Sound.loadSound("res/song.ogg", true);
 			song.setLoopEnabled(true);
 			song.setVolume(0.1);
 			song.play();
@@ -79,6 +79,7 @@ public class Demo extends Game {
 		if (old.getWidth() != getWidth() || old.getHeight() != getHeight()) {
 			old.destroy();
 			current.destroy();
+			
 			try {
 				old = Image.createImage(getWidth(), getHeight());
 				current = Image.createImage(getWidth(), getHeight());

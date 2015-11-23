@@ -22,6 +22,11 @@ public abstract class Image {
 	public static Image createImage(int width, int height) throws IOException {
 		return Game.getGameInstance().getWindow().createImage(width, height);
 	}
+	public static void destroyAll() {
+		for (String name : images) {
+			images.get(name).destroy();
+		}
+	}
 	public abstract int getWidth();
 	public abstract int getHeight();
 	public abstract Canvas getCanvas();

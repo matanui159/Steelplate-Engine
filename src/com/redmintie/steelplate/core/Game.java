@@ -6,6 +6,8 @@ import javax.imageio.ImageIO;
 
 import com.redmintie.steelplate.device.Window;
 import com.redmintie.steelplate.render.Canvas;
+import com.redmintie.steelplate.render.Image;
+import com.redmintie.steelplate.sound.Sound;
 
 /**
  * The core class for Steelplate Engine. Override this to create your game.
@@ -135,6 +137,12 @@ public abstract class Game {
 	 * After ending a game, anothe game can be made to become the new game instance.
 	 */
 	public void end() {
+		Image.destroyAll();
+		try {
+			Sound.destroyAll();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 		window.end();
 		instance = null;
 	}
