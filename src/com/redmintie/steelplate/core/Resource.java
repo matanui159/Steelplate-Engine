@@ -60,7 +60,7 @@ public class Resource {
 		stream.close();
 	}
 	public static void saveDataLater(MultiThreadListener listener) {
-		new MultiThreadAction(listener) {
+		new MultiThreadAction("saveDataLater()", listener) {
 			@Override
 			public void doAction() throws IOException {
 				saveData();

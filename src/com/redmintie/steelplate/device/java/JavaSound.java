@@ -10,14 +10,19 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
+import com.redmintie.steelplate.multithread.MultiThreadService;
 import com.redmintie.steelplate.sound.Sound;
 
-public class JavaSound extends Sound implements Runnable {
+public class JavaSound extends Sound {
+	private static final int EVENT_STOP = 0;
+	
 	private String name;
 	private boolean stream;
 	private AudioInputStream audio;
 	private DataLine line;
-	private Thread thread;
+	private AudioService service;
+	private boolean stopped = true;
+	
 	@Override
 	public void loadResource(String name, boolean stream) throws IOException {
 		this.name = name;
@@ -27,20 +32,21 @@ public class JavaSound extends Sound implements Runnable {
 	}
 	@Override
 	public void loadData(AudioInputStream audio, boolean stream) throws IOException {
-		this.stream = stream;
 		DataLine.Info info = new DataLine.Info(stream ? SourceDataLine.class : Clip.class, audio.getFormat());
 		if (!AudioSystem.isLineSupported(info)) {
 			throw new IOException("Line type not supported.");
 		}
 		
 		try {
-			line = (DataLine)AudioSystem.getLine(info);
+			if (line == null) {
+				line = (DataLine)AudioSystem.getLine(info);
+			}
 			if (stream) {
 				((SourceDataLine)line).open(audio.getFormat());
 				this.audio = audio;
-				if (thread == null) {
-					thread = new Thread(this, "Audio Thread");
-					thread.start();
+				if (service == null) {
+					service = new AudioService();
+					service.start();
 				}
 			} else {
 				((Clip)line).open(audio);
@@ -51,30 +57,11 @@ public class JavaSound extends Sound implements Runnable {
 		}
 	}
 	@Override
-	public void run() {
-		try {
-			byte[] buffer = new byte[65536];
-			int length;
-			while (thread != null) {
-				while (thread != null && (length = audio.read(buffer)) != -1) {
-					((SourceDataLine)line).write(buffer, 0, length);
-				}
-				line.drain();
-				if (line.isRunning()) {
-					stop();
-					if (loop) {
-						line.start();
-					}
-				}
-			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-	}
-	@Override
 	public void play() {
-		stop();
-		line.start();
+		if (!stopped) {
+			stop();
+		}
+		resume();
 	}
 	@Override
 	public void pause() {
@@ -83,24 +70,18 @@ public class JavaSound extends Sound implements Runnable {
 	@Override
 	public void resume() {
 		line.start();
+		stopped = false;
 	}
 	@Override
 	public void stop() {
-		if (line.isRunning()) {
-			line.stop();
-		}
-		line.flush();
 		if (stream) {
-			try {
-				AudioInputStream old = audio;
-				loadResource(name, stream);
-				old.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
+			service.callEvent(EVENT_STOP, true);
 		} else {
+			line.stop();
+			line.flush();
 			((Clip)line).setFramePosition(0);
 		}
+		stopped = true;
 	}
 	@Override
 	public boolean isPlaying() {
@@ -123,9 +104,57 @@ public class JavaSound extends Sound implements Runnable {
 	public void destroy() throws IOException {
 		stop();
 		if (stream) {
-			audio.close();
-			thread = null;
+			service.end(true);
+		} else {
+			line.close();
 		}
-		line.close();
+	}
+	
+	private class AudioService extends MultiThreadService {
+		private byte[] buffer = new byte[65536];
+		private int length;
+		private int offset;
+		public AudioService() {
+			super("Audio Service", null);
+		}
+		@Override
+		public void update() throws IOException {
+			if (offset == length) {
+				offset = 0;
+				length = audio.read(buffer);
+				if (length == -1) {
+					length = 0;
+					if (line.available() == line.getBufferSize()) {
+						stopAudio();
+						if (loop) {
+							line.start();
+						}
+					}
+					return;
+				}
+			}
+			int len = Math.min(length - offset, line.available());
+			((SourceDataLine)line).write(buffer, offset, len);
+			offset += len;
+			
+		}
+		@Override
+		public void eventCalled(int event) throws IOException {
+			switch (event) {
+			case MultiThreadService.EVENT_END:
+				line.close();
+				audio.close();
+				break;
+			case EVENT_STOP:
+				stopAudio();
+			}
+		}
+		public void stopAudio() throws IOException {
+			System.out.println("STOP AUDIO");
+			line.stop();
+			line.flush();
+			audio.close();
+			loadResource(name, stream);
+		}
 	}
 }

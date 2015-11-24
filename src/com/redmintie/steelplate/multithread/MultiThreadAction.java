@@ -2,8 +2,8 @@ package com.redmintie.steelplate.multithread;
 
 public abstract class MultiThreadAction extends Thread {
 	private MultiThreadListener listener;
-	public MultiThreadAction(MultiThreadListener listener) {
-		super("Multi Thread Action");
+	public MultiThreadAction(String name, MultiThreadListener listener) {
+		super(name);
 		this.listener = listener;
 	}
 	@Override
