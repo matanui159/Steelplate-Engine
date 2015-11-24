@@ -59,6 +59,7 @@ public class JavaSound extends Sound implements Runnable {
 				while (thread != null && (length = audio.read(buffer)) != -1) {
 					((SourceDataLine)line).write(buffer, 0, length);
 				}
+				line.drain();
 				if (line.isRunning()) {
 					stop();
 					if (loop) {
@@ -91,9 +92,9 @@ public class JavaSound extends Sound implements Runnable {
 		line.flush();
 		if (stream) {
 			try {
-				AudioInputStream a = audio;
+				AudioInputStream old = audio;
 				loadResource(name, stream);
-				a.close();
+				old.close();
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
@@ -123,7 +124,8 @@ public class JavaSound extends Sound implements Runnable {
 		stop();
 		if (stream) {
 			audio.close();
+			thread = null;
 		}
-		thread = null;
+		line.close();
 	}
 }
