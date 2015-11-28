@@ -14,7 +14,8 @@ import com.redmintie.steelplate.multithread.MultiThreadService;
 import com.redmintie.steelplate.sound.Sound;
 
 public class JavaSound extends Sound {
-	private static final int EVENT_STOP = 0;
+	private static final int EVENT_PLAY = 0;
+	private static final int EVENT_STOP = 1;
 	
 	private String name;
 	private boolean stream;
@@ -58,10 +59,14 @@ public class JavaSound extends Sound {
 	}
 	@Override
 	public void play() {
-		if (!stopped) {
-			stop();
+		if (stream) {
+			service.callEvent(EVENT_PLAY);
+		} else {
+			if (!stopped) {
+				stop();
+			}
+			resume();
 		}
-		resume();
 	}
 	@Override
 	public void pause() {
@@ -75,7 +80,7 @@ public class JavaSound extends Sound {
 	@Override
 	public void stop() {
 		if (stream) {
-			service.callEvent(EVENT_STOP, true);
+			service.callEvent(EVENT_STOP);
 		} else {
 			line.stop();
 			line.flush();
@@ -102,7 +107,6 @@ public class JavaSound extends Sound {
 	}
 	@Override
 	public void destroy() throws IOException {
-		stop();
 		if (stream) {
 			service.end(true);
 		} else {
@@ -145,8 +149,15 @@ public class JavaSound extends Sound {
 				line.close();
 				audio.close();
 				break;
+			case EVENT_PLAY:
+				if (!stopped) {
+					stopAudio();
+				}
+				JavaSound.this.resume();
+				break;
 			case EVENT_STOP:
 				stopAudio();
+				break;
 			}
 		}
 		public void stopAudio() throws IOException {

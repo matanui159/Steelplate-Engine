@@ -19,7 +19,9 @@ public abstract class MultiThreadService extends MultiThreadAction {
 	public void start() {
 		if (!running) {
 			running = true;
-			event = EVENT_START;
+			synchronized (this) {
+				event = EVENT_START;
+			}
 			super.start();
 			block();
 		}
@@ -27,14 +29,14 @@ public abstract class MultiThreadService extends MultiThreadAction {
 	@Override
 	public void doAction() throws Exception {
 		while (true) {
-			if (event != -1) {
-				if (event != EVENT_START) {
+			synchronized (this) {
+				if (event != -1) {
 					eventCalled(event);
-				}
-				boolean end = event == EVENT_END;
-				event = -1;
-				if (end) {
-					break;
+					boolean end = event == EVENT_END;
+					event = -1;
+					if (end) {
+						break;
+					}
 				}
 			}
 			update();
@@ -58,6 +60,6 @@ public abstract class MultiThreadService extends MultiThreadAction {
 		callEvent(EVENT_END, block);
 	}
 	public void end() {
-		event = EVENT_END;
+		callEvent(EVENT_END);
 	}
 }

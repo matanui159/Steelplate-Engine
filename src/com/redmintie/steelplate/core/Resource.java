@@ -92,6 +92,7 @@ public class Resource {
 					Device device = (Device)Class.forName(scanner.nextLine()).getConstructor()
 							.newInstance();
 					return device;
+				} catch (ClassNotFoundException ex) {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
