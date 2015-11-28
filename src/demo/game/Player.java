@@ -1,4 +1,4 @@
-package demo;
+package demo.game;
 
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.core.Resource;
@@ -23,8 +23,8 @@ public class Player extends Entity {
 	public int count;
 	
 	public Player() {
-		position.x = Resource.loadNumber("x", Game.getGameInstance().getWidth() / 2);
-		position.y = Game.getGameInstance().getHeight() - 100;
+//		TODO: load data
+		position.x = Game.getGameInstance().getWidth() / 2;
 		width = Res.player.getWidth();
 		height = Res.player.getHeight();
 		

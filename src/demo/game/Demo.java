@@ -1,4 +1,4 @@
-package demo;
+package demo.game;
 import java.io.IOException;
 
 import com.redmintie.steelplate.core.DeviceException;
@@ -139,21 +139,7 @@ public class Demo extends Game {
 	}
 	@Override
 	public void close() {
-		Resource.saveNumber("x", player.position.x);
-		Resource.saveDataLater(new MultiThreadListener() {
-			@Override
-			public void actionStarted() {
-				System.out.println("Saving...");
-			}
-			@Override
-			public void actionFinished() {
-				System.out.println("\tDone!");
-			}
-			@Override
-			public void actionFailed(Exception ex) {
-				ex.printStackTrace();
-			}
-		});
+//		TODO: save data
 		end();
 	}
 }

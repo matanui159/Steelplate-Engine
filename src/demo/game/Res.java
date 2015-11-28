@@ -1,4 +1,4 @@
-package demo;
+package demo.game;
 
 import java.io.IOException;
 

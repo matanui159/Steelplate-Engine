@@ -42,6 +42,7 @@ public class JavaWindow extends Window {
 	public JavaWindow() {
 		frame.add(panel);
 		frame.setLocationByPlatform(true);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

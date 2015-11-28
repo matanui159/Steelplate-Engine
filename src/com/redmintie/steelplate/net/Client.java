@@ -43,6 +43,7 @@ public class Client {
 	}
 	private void init(Socket socket) throws IOException {
 		this.socket = socket;
+		socket.setTcpNoDelay(true);
 		this.in = new DataInputStream(socket.getInputStream());
 		this.out = new DataOutputStream(socket.getOutputStream());
 		new ClientService();

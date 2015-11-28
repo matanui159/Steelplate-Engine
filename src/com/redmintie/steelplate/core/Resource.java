@@ -1,87 +1,19 @@
 package com.redmintie.steelplate.core;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
 import com.redmintie.steelplate.device.Device;
-import com.redmintie.steelplate.multithread.MultiThreadAction;
-import com.redmintie.steelplate.multithread.MultiThreadListener;
-import com.redmintie.steelplate.util.Map;
 
-public class Resource {
-	private static Map<String, String> stringData;
-	private static Map<String, Double> numberData;
+public class Resource {	
 	public static InputStream getResourceAsStream(String name) throws IOException {
 		InputStream stream = Resource.class.getResourceAsStream("/" + name);
 		if (stream == null) {
 			stream = new FileInputStream(name);
 		}
 		return stream;
-	}
-	private static void loadData() {
-		if (stringData == null) {
-			try {
-				stringData = new Map<String, String>();
-				numberData = new Map<String, Double>();
-			
-				DataInputStream stream = new DataInputStream(new FileInputStream("data.dat"));
-				while (stream.available() > 0) {
-					String name = stream.readUTF();
-					if (stream.readBoolean()) {
-						numberData.set(name, stream.readDouble());
-					} else {
-						stringData.set(name, stream.readUTF());
-					}
-				}
-				stream.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-	public synchronized static void saveData() throws IOException {
-		loadData();
-		DataOutputStream stream = new DataOutputStream(new FileOutputStream("data.dat"));
-		for (String name : stringData) {
-			stream.writeUTF(name);
-			stream.writeBoolean(false);
-			stream.writeUTF(stringData.get(name));
-		}
-		for (String name : numberData) {
-			stream.writeUTF(name);
-			stream.writeBoolean(true);
-			stream.writeDouble(numberData.get(name));
-		}
-		stream.close();
-	}
-	public static void saveDataLater(MultiThreadListener listener) {
-		new MultiThreadAction("saveDataLater()", listener) {
-			@Override
-			public void doAction() throws IOException {
-				saveData();
-			}
-		}.start();
-	}
-	public static String loadString(String name, String def) {
-		loadData();
-		String value = stringData.get(name);
-		return value == null ? def : value;
-	}
-	public static void saveString(String name, String value) {
-		stringData.set(name, value);
-	}
-	public static double loadNumber(String name, double def) {
-		loadData();
-		Double value = numberData.get(name);
-		return value == null ? def : value;
-	}
-	public static void saveNumber(String name, double value) {
-		numberData.set(name, value);
 	}
 	public static Device loadDevice(String list) throws DeviceException {
 		Scanner scanner = null;

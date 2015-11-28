@@ -1,4 +1,4 @@
-package demo;
+package demo.game;
 
 import com.redmintie.steelplate.render.Canvas;
 
