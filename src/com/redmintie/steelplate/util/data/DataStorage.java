@@ -2,6 +2,7 @@ package com.redmintie.steelplate.util.data;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class DataStorage {
@@ -17,6 +18,11 @@ public class DataStorage {
 		in.readDataObject(result);
 		in.close();
 		return result;
+	}
+	public static void writeObject(String name, DataObject object) throws IOException {
+		DataOutputStream out = new DataOutputStream(new FileOutputStream(getFile(name)));
+		out.writeDataObject(object);
+		out.close();
 	}
 	public static void deleteObject(String name) {
 		getFile(name).delete();
