@@ -1,33 +1,43 @@
 package com.redmintie.steelplate.util.data;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataInput;
 import java.io.IOException;
 
-public class DataPacket implements AutoCloseable {
-	private DataInput in;
-	private boolean read;
-	public DataPacket(DataInput in) {
-		this.in = in;
+public class DataPacket {
+	private static byte[] data;
+	private static int point;
+	
+	private java.io.DataInputStream in;
+	private int offset;
+	private long header;
+	private int size;
+	public DataPacket(DataInput in) throws IOException {
+		header = in.readLong();
+		size = (int)(header & 0xFFFFF);
+		header >>>= 16;
+		
+		synchronized (data) {
+			if (data == null) {
+				data = new byte[65536];
+			}
+			offset = point;
+			point += size;
+			if (point > data.length) {
+				offset = 0;
+				point = size;
+			}
+		}
+		
+		in.readFully(data, offset, size);
+		this.in = new java.io.DataInputStream(new ByteArrayInputStream(data, offset, size));
 	}
 	public <T extends DataObject> T getObject(T result) throws IOException {
-		if (read) {
-			throw new IOException("Data can only be read once.");
-		}
-		read = true;
-		long header = in.readLong();
-		if (header >>> 16 != result.getHeader()) {
-			in.skipBytes((int)(header & 0xFFFF));
+		if (header != result.getHeader()) {
 			throw new IOException("Incorrect header.");
 		}
-		result.readData(in, (int)(header & 0xFFFF));
+		in.reset();
+		result.readData(in, size);
 		return result;
-	}
-	@Override
-	public void close() throws IOException {
-		if (!read) {
-			in.skipBytes(6);
-			in.skipBytes(in.readUnsignedShort());
-		}
-		read = true;
 	}
 }

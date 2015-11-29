@@ -5,15 +5,11 @@ import java.io.InputStream;
 
 public class DataInputStream implements AutoCloseable {
 	private java.io.DataInputStream stream;
-	private DataPacket pkg;
 	public DataInputStream(InputStream stream) {
 		this.stream = new java.io.DataInputStream(stream);
 	}
 	public DataPacket readDataPacket() throws IOException {
-		if (pkg != null) {
-			pkg.close();
-		}
-		return pkg = new DataPacket(stream);
+		return new DataPacket(stream);
 	}
 	public <T extends DataObject> T readDataObject(T result) throws IOException {
 		long header = stream.readLong();

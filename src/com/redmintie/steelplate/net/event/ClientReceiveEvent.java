@@ -1,21 +1,16 @@
 package com.redmintie.steelplate.net.event;
 
 import com.redmintie.steelplate.net.Client;
+import com.redmintie.steelplate.util.data.DataPacket;
 
 public class ClientReceiveEvent extends NetEvent {
-	public boolean type;
-	public String str;
-	public double num;
-	public ClientReceiveEvent(Client client, boolean type) {
+	private DataPacket packet;
+	public ClientReceiveEvent(Client client, DataPacket packet) {
 		super(client);
-		this.type = type;
+		this.packet = packet;
 	}
 	@Override
 	public void processEvent(NetListener listener) {
-		if (type) {
-			((ClientListener)listener).numberReceived(client, num);
-		} else {
-			((ClientListener)listener).stringReceived(client, str);
-		}
+		((ClientListener)listener).packetRecieved(client, packet);
 	}
 }

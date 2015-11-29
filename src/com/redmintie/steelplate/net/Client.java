@@ -1,7 +1,5 @@
 package com.redmintie.steelplate.net;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -10,6 +8,9 @@ import com.redmintie.steelplate.net.event.ClientListener;
 import com.redmintie.steelplate.net.event.ClientReceiveEvent;
 import com.redmintie.steelplate.net.event.NetEvent;
 import com.redmintie.steelplate.util.array.MappedArray;
+import com.redmintie.steelplate.util.data.DataInputStream;
+import com.redmintie.steelplate.util.data.DataObject;
+import com.redmintie.steelplate.util.data.DataOutputStream;
 import com.redmintie.steelplate.util.multithread.MultiThreadAdapter;
 import com.redmintie.steelplate.util.multithread.MultiThreadService;
 
@@ -60,17 +61,8 @@ public class Client {
 	public int getPort() {
 		return socket.getPort();
 	}
-	public void sendString(String msg) {
-		try {
-			out.writeBoolean(false);
-			out.writeUTF(msg);
-		} catch (IOException ex) {}
-	}
-	public void sendNumber(double msg) {
-		try {
-			out.writeBoolean(true);
-			out.writeDouble(msg);
-		} catch (IOException ex) {}
+	public void sendObject(DataObject object) throws IOException {
+		out.writeDataObject(object);
 	}
 	public void addListener(ClientListener listener) {
 		listeners.add(listener);
@@ -108,13 +100,7 @@ public class Client {
 		}
 		@Override
 		public void update() throws IOException {
-			ClientReceiveEvent event = new ClientReceiveEvent(Client.this, in.readBoolean());
-			if (event.type) {
-				event.num = in.readDouble();
-			} else {
-				event.str = in.readUTF();
-			}
-			events.add(event);
+			events.add(new ClientReceiveEvent(Client.this, in.readDataPacket()));
 		}
 		@Override
 		public void eventCalled(int event) {
