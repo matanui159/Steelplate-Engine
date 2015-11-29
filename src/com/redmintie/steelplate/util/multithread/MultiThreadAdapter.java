@@ -1,4 +1,4 @@
-package com.redmintie.steelplate.multithread;
+package com.redmintie.steelplate.util.multithread;
 
 public class MultiThreadAdapter implements MultiThreadListener {
 	@Override

@@ -5,6 +5,8 @@ import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Point;
 
 public class Star extends Entity {
+	private static final long serialVersionUID = 0;
+	
 	private Point speed = new Point(0, 0).moveAtAngle(0, Math.random() * 300, Math.random() * 360);
 	private double aSpeed = Math.random() * 360 - 180;
 	private double fSpeed;

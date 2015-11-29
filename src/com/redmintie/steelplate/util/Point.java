@@ -1,7 +1,16 @@
 package com.redmintie.steelplate.util;
 
-public class Point {
-	private Point result;
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
+import com.redmintie.steelplate.util.data.DataObject;
+import com.redmintie.steelplate.util.data.DataUtil;
+
+public class Point implements DataObject {
+	private static final long serialVersionUID = DataUtil.generateHeader("STLPLT", "POINTX");
+	
+	private transient Point result;
 	public double x;
 	public double y;
 	public Point(double x, double y) {
@@ -32,6 +41,30 @@ public class Point {
 			return x == point.x && y == point.y;
 		}
 		return false;
+	}
+	@Override
+	public long getHeader() {
+		return serialVersionUID;
+	}
+	@Override
+	public int getSize() {
+		return 16;
+	}
+	@Override
+	public void writeData(DataOutput out) throws IOException {
+		out.writeDouble(x);
+		out.writeDouble(y);
+	}
+	@Override
+	public void readData(DataInput in, int size) throws IOException {
+		if (size < 4) {
+			throw new IOException("Size to small.");
+		}
+		x = in.readDouble();
+		y = in.readDouble();
+		if (size > 16) {
+			in.skipBytes(size - 16);
+		}
 	}
 	public Point set(double x, double y) {
 		this.x = x;

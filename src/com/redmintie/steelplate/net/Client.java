@@ -5,13 +5,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import com.redmintie.steelplate.multithread.MultiThreadAdapter;
-import com.redmintie.steelplate.multithread.MultiThreadService;
 import com.redmintie.steelplate.net.event.ClientDisconnectEvent;
 import com.redmintie.steelplate.net.event.ClientListener;
 import com.redmintie.steelplate.net.event.ClientReceiveEvent;
 import com.redmintie.steelplate.net.event.NetEvent;
 import com.redmintie.steelplate.util.array.MappedArray;
+import com.redmintie.steelplate.util.multithread.MultiThreadAdapter;
+import com.redmintie.steelplate.util.multithread.MultiThreadService;
 
 public class Client {
 	private Socket socket;

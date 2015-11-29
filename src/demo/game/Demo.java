@@ -3,13 +3,13 @@ import java.io.IOException;
 
 import com.redmintie.steelplate.core.DeviceException;
 import com.redmintie.steelplate.core.Game;
-import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.entity.Entity;
-import com.redmintie.steelplate.multithread.MultiThreadListener;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
 import com.redmintie.steelplate.sound.Sound;
+import com.redmintie.steelplate.util.data.DataStorage;
+import com.redmintie.steelplate.util.multithread.MultiThreadAdapter;
 
 public class Demo extends Game {
 	public static void main(String[] args) {
@@ -139,7 +139,16 @@ public class Demo extends Game {
 	}
 	@Override
 	public void close() {
-//		TODO: save data
+		DataStorage.writeObjectLater("demo.game.Player.position", player.position, new MultiThreadAdapter() {
+			@Override
+			public void actionStarted() {
+				System.out.println("Saving Data...");
+			}
+			@Override
+			public void actionFinished() {
+				System.out.println("\tDone!");
+			}
+		});
 		end();
 	}
 }

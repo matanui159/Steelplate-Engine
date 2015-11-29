@@ -1,7 +1,8 @@
 package demo.game;
 
+import java.io.IOException;
+
 import com.redmintie.steelplate.core.Game;
-import com.redmintie.steelplate.core.Resource;
 import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.input.Keyboard;
 import com.redmintie.steelplate.input.Mouse;
@@ -9,9 +10,12 @@ import com.redmintie.steelplate.input.event.MouseAdapter;
 import com.redmintie.steelplate.input.event.MouseEvent;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Point;
+import com.redmintie.steelplate.util.data.DataStorage;
 import com.redmintie.steelplate.util.ease.EaseOut;
 
 public class Player extends Entity {
+	private static final long serialVersionUID = 0;
+	
 	private EaseOut ease = new EaseOut(100, -100, 1, 2);
 	private Point buffer = new Point();
 	
@@ -23,8 +27,14 @@ public class Player extends Entity {
 	public int count;
 	
 	public Player() {
-//		TODO: load data
 		position.x = Game.getGameInstance().getWidth() / 2;
+		
+		try {
+			DataStorage.readObject("demo.game.Player.position", position);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
 		width = Res.player.getWidth();
 		height = Res.player.getHeight();
 		

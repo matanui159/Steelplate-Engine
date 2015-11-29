@@ -134,7 +134,7 @@ public abstract class Game {
 	
 	/**
 	 * Ends the game, closing the window and stopping the loop.
-	 * After ending a game, anothe game can be made to become the new game instance.
+	 * After ending a game, another game can be made to become the new game instance.
 	 */
 	public void end() {
 		Image.destroyAll();

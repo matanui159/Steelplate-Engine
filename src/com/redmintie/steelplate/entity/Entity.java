@@ -1,11 +1,18 @@
 package com.redmintie.steelplate.entity;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.util.Iterator;
 
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Point;
+import com.redmintie.steelplate.util.data.DataObject;
+import com.redmintie.steelplate.util.data.DataUtil;
 
-public class Entity implements Iterable<Entity> {
+public class Entity implements Iterable<Entity>, DataObject {
+	private static final long serialVersionUID = DataUtil.generateHeader("STLPLT", "ENTITY");
+	
 	public Point position = new Point();
 	public double angle;
 	public int width;
@@ -20,6 +27,36 @@ public class Entity implements Iterable<Entity> {
 	private Entity next;
 	private EntityIterator iterator;
 	
+	@Override
+	public long getHeader() {
+		return serialVersionUID;
+	}
+	@Override
+	public int getSize() {
+		return 33;
+	}
+	@Override
+	public void writeData(DataOutput out) throws IOException {
+		position.writeData(out);
+		out.writeDouble(angle);
+		out.writeInt(width);
+		out.writeInt(height);
+		out.writeBoolean(relative);
+	}
+	@Override
+	public void readData(DataInput in, int size) throws IOException {
+		if (size < 33) {
+			throw new IOException("Size too small.");
+		}
+		position.readData(in, 16);
+		angle = in.readDouble();
+		width = in.readInt();
+		height = in.readInt();
+		relative = in.readBoolean();
+		if (size > 33) {
+			in.skipBytes(size - 33);
+		}
+	}
 	public boolean testOverlap(Entity other) {
 		double x = getTrueX();
 		double y = getTrueY();

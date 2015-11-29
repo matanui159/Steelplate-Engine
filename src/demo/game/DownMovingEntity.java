@@ -4,6 +4,8 @@ import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.entity.Entity;
 
 public class DownMovingEntity extends Entity {
+	private static final long serialVersionUID = 0;
+	
 	public DownMovingEntity() {
 		position.set(Math.random() * Game.getGameInstance().getWidth(), -100);
 	}

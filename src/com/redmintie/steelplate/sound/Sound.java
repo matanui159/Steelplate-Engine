@@ -15,8 +15,7 @@ import com.redmintie.steelplate.device.Device;
 import com.redmintie.steelplate.util.Map;
 
 public abstract class Sound implements Device {
-	private static final int RIFF = 0x52494646;
-	private static final int WAVE = 0x57415645;
+	private static final int OGG = 0x4f676753;
 	
 	private static Map<String, Sound> sounds = new Map<String, Sound>();
 	public static Sound loadSound(String name, boolean stream) throws DeviceException, IOException {
@@ -42,18 +41,12 @@ public abstract class Sound implements Device {
 		try {
 			DataInputStream data = new DataInputStream(new BufferedInputStream(
 					Resource.getResourceAsStream(name)));
-			data.mark(12);
-			boolean wav = false;
-			if (data.readInt() == RIFF) {
-				data.skip(4);
-				if (data.readInt() == WAVE) {
-					wav = true;
-				}
-			}
+			data.mark(4);
+			boolean ogg = data.readInt() == OGG;
 			data.reset();
 		
 			AudioInputStream audio = AudioSystem.getAudioInputStream(data);
-			if (!wav) {
+			if (ogg) {
 				AudioFormat format = audio.getFormat();
 				format = new AudioFormat(
 						AudioFormat.Encoding.PCM_SIGNED,

@@ -10,8 +10,8 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-import com.redmintie.steelplate.multithread.MultiThreadService;
 import com.redmintie.steelplate.sound.Sound;
+import com.redmintie.steelplate.util.multithread.MultiThreadService;
 
 public class JavaSound extends Sound {
 	private static final int EVENT_PLAY = 0;
@@ -62,9 +62,7 @@ public class JavaSound extends Sound {
 		if (stream) {
 			service.callEvent(EVENT_PLAY);
 		} else {
-			if (!stopped) {
-				stop();
-			}
+			stop();
 			resume();
 		}
 	}
@@ -82,9 +80,11 @@ public class JavaSound extends Sound {
 		if (stream) {
 			service.callEvent(EVENT_STOP);
 		} else {
-			line.stop();
-			line.flush();
-			((Clip)line).setFramePosition(0);
+			if (!stopped) {
+				line.stop();
+				line.flush();
+				((Clip)line).setFramePosition(0);
+			}
 		}
 		stopped = true;
 	}
@@ -150,9 +150,7 @@ public class JavaSound extends Sound {
 				audio.close();
 				break;
 			case EVENT_PLAY:
-				if (!stopped) {
-					stopAudio();
-				}
+				stopAudio();
 				JavaSound.this.resume();
 				break;
 			case EVENT_STOP:
@@ -161,11 +159,12 @@ public class JavaSound extends Sound {
 			}
 		}
 		public void stopAudio() throws IOException {
-			System.out.println("STOP AUDIO");
-			line.stop();
-			line.flush();
-			audio.close();
-			loadResource(name, stream);
+			if (!stopped) {
+				line.stop();
+				line.flush();
+				audio.close();
+				loadResource(name, stream);
+			}
 		}
 	}
 }

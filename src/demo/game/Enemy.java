@@ -4,6 +4,8 @@ import com.redmintie.steelplate.entity.Entity;
 import com.redmintie.steelplate.render.Canvas;
 
 public class Enemy extends DownMovingEntity {
+	private static final long serialVersionUID = 0;
+	
 	public Enemy() {
 		width = Res.enemy.getWidth();
 		height = Res.enemy.getHeight();

@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.redmintie.steelplate.util.multithread.MultiThreadAction;
+import com.redmintie.steelplate.util.multithread.MultiThreadListener;
+
 public class DataStorage {
 	private static File getFile(String name) {
 		File file = new File("data/" + name.replace('.', '/') + ".dat");
@@ -13,18 +16,26 @@ public class DataStorage {
 		}
 		return file;
 	}
-	public static <T extends DataObject> T readObject(String name, T result) throws IOException {
+	public synchronized static <T extends DataObject> T readObject(String name, T result) throws IOException {
 		DataInputStream in = new DataInputStream(new FileInputStream(getFile(name)));
 		in.readDataObject(result);
 		in.close();
 		return result;
 	}
-	public static void writeObject(String name, DataObject object) throws IOException {
+	public synchronized static void writeObject(String name, DataObject object) throws IOException {
 		DataOutputStream out = new DataOutputStream(new FileOutputStream(getFile(name)));
 		out.writeDataObject(object);
 		out.close();
 	}
-	public static void deleteObject(String name) {
+	public static void writeObjectLater(String name, DataObject object, MultiThreadListener listener) {
+		new MultiThreadAction(name, listener) {
+			@Override
+			public void doAction() throws IOException {
+				writeObject(name, object);
+			}
+		}.start();
+	}
+	public synchronized static void deleteObject(String name) {
 		getFile(name).delete();
 	}
 }

@@ -3,8 +3,9 @@ package com.redmintie.steelplate.util.data;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.io.Serializable;
 
-public interface DataObject {
+public interface DataObject extends Serializable {
 	public long getHeader();
 	public int getSize();
 	public void writeData(DataOutput out) throws IOException;

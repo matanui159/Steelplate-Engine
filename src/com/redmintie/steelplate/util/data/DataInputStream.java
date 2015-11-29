@@ -5,22 +5,23 @@ import java.io.InputStream;
 
 public class DataInputStream implements AutoCloseable {
 	private java.io.DataInputStream stream;
-	private DataPackage pkg;
+	private DataPacket pkg;
 	public DataInputStream(InputStream stream) {
 		this.stream = new java.io.DataInputStream(stream);
 	}
-	public DataPackage readDataPackage() throws IOException {
+	public DataPacket readDataPacket() throws IOException {
 		if (pkg != null) {
 			pkg.close();
 		}
-		return pkg = new DataPackage(stream);
+		return pkg = new DataPacket(stream);
 	}
 	public <T extends DataObject> T readDataObject(T result) throws IOException {
-		if (stream.readLong() != result.getHeader()) {
-			stream.skipBytes(stream.readUnsignedShort());
+		long header = stream.readLong();
+		if (header >>> 16 != result.getHeader()) {
+			stream.skipBytes((int)(header & 0xFFFF));
 			throw new IOException("Incorrect header.");
 		}
-		result.readData(stream, stream.readUnsignedShort());
+		result.readData(stream, (int)(header & 0xFFFF));
 		return result;
 	}
 	@Override

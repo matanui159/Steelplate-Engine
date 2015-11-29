@@ -9,8 +9,7 @@ public class DataOutputStream implements AutoCloseable {
 		this.stream = new java.io.DataOutputStream(stream);
 	}
 	public void writeDataObject(DataObject object) throws IOException {
-		stream.writeLong(object.getHeader());
-		stream.writeShort(object.getSize());
+		stream.writeLong(object.getHeader() << 16 | object.getSize());
 		object.writeData(stream);
 	}
 	@Override

@@ -1,4 +1,4 @@
-package com.redmintie.steelplate.multithread;
+package com.redmintie.steelplate.util.multithread;
 
 public abstract class MultiThreadAction extends Thread {
 	private MultiThreadListener listener;

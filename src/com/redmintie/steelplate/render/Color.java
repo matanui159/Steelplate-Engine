@@ -1,6 +1,15 @@
 package com.redmintie.steelplate.render;
 
-public class Color {
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
+import com.redmintie.steelplate.util.data.DataObject;
+import com.redmintie.steelplate.util.data.DataUtil;
+
+public class Color implements DataObject {
+	private static final long serialVersionUID = DataUtil.generateHeader("STLPLT", "COLORX");
+	
 	// GENERATED CODE BEGINS HERE
 	public static final Color WHITE = new Color(255, 255, 255);
 	public static final Color LIGHT_GRAY = new Color(192, 192, 192);
@@ -47,6 +56,34 @@ public class Color {
 			return hashCode() == other.hashCode();
 		}
 		return false;
+	}
+	@Override
+	public long getHeader() {
+		return serialVersionUID;
+	}
+	@Override
+	public int getSize() {
+		return 4;
+	}
+	@Override
+	public void writeData(DataOutput out) throws IOException {
+		out.writeByte(red);
+		out.writeByte(green);
+		out.writeByte(blue);
+		out.writeByte(alpha);
+	}
+	@Override
+	public void readData(DataInput in, int size) throws IOException {
+		if (size < 4) {
+			throw new IOException("Size to0 small.");
+		}
+		red = in.readUnsignedByte();
+		green = in.readUnsignedByte();
+		blue = in.readUnsignedByte();
+		alpha = in.readUnsignedByte();
+		if (size > 4) {
+			in.skipBytes(size - 4);
+		}
 	}
 	public void setRed(int red) {
 		this.red = red;

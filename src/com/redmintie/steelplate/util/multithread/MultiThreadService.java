@@ -1,4 +1,4 @@
-package com.redmintie.steelplate.multithread;
+package com.redmintie.steelplate.util.multithread;
 
 public abstract class MultiThreadService extends MultiThreadAction {
 	private static final int EVENT_START = Integer.MAX_VALUE - 1;
