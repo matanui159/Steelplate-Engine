@@ -10,5 +10,6 @@ import com.redmintie.steelplate.util.Map;
 public class DemoServer extends Server {
 	private Map<Client, Entity> players = new Map<Client, Entity>();
 	public DemoServer() throws IOException {
+		
 	}
 }

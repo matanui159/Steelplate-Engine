@@ -18,6 +18,7 @@ public class Client {
 	private Socket socket;
 	private DataInputStream in;
 	private DataOutputStream out;
+	private Server server;
 	private MappedArray<NetEvent> events = new MappedArray<NetEvent>();
 	private MappedArray<ClientListener> listeners = new MappedArray<ClientListener>();
  	
@@ -36,7 +37,9 @@ public class Client {
 	public Client(String address, int port) throws IOException {
 		init(new Socket(address, port));
 	}
-	Client(Socket socket) throws IOException {
+	Client(Server server, Socket socket) throws IOException {
+		this.server = server;
+		server.clients.add(this);
 		init(socket);
 	}
 	private void formatError() {
@@ -83,6 +86,9 @@ public class Client {
 	}
 	public void close() throws IOException {
 		socket.close();
+		if (server != null) {
+			server.clients.remove(this);
+		}
 	}
 	private class ClientService extends MultiThreadService {
 		public ClientService() {
@@ -91,7 +97,7 @@ public class Client {
 				public void actionFailed(Exception ex) {
 					if (!socket.isClosed()) {
 						try {
-							socket.close();
+							close();
 						} catch (IOException e) {}
 						events.add(new ClientDisconnectEvent(Client.this, ex));
 					}

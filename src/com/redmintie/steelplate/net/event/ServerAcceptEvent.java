@@ -9,5 +9,6 @@ public class ServerAcceptEvent extends NetEvent {
 	@Override
 	public void processEvent(NetListener listener) {
 		((ServerListener)listener).clientAccepted(client);
+		client.addListener((ClientListener)listener);
 	}
 }
