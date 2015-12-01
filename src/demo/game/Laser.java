@@ -6,8 +6,6 @@ import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.util.Point;
 
 public class Laser extends Entity {
-	private static final long serialVersionUID = 0;
-	
 	public Laser(Point position, double angle) {
 		this.position.set(position);
 		this.angle = angle;

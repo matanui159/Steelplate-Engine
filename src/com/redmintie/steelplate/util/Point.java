@@ -8,7 +8,8 @@ import com.redmintie.steelplate.util.data.DataObject;
 import com.redmintie.steelplate.util.data.DataUtil;
 
 public class Point implements DataObject {
-	private static final long serialVersionUID = DataUtil.generateHeader("STLPLT", "POINTX");
+	private static final long HEADER = DataUtil.generateHeader("STLPLT", "POINTX");
+	private static final int SIZE = 16;
 	
 	private transient Point result;
 	public double x;
@@ -44,15 +45,15 @@ public class Point implements DataObject {
 	}
 	@Override
 	public long getHeader() {
-		return serialVersionUID;
+		return HEADER;
 	}
 	@Override
 	public int getMinSize() {
-		return getSize();
+		return SIZE;
 	}
 	@Override
 	public int getSize() {
-		return 16;
+		return SIZE;
 	}
 	@Override
 	public void writeData(DataOutput out) throws IOException {

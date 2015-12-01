@@ -3,8 +3,6 @@ package demo.game;
 import com.redmintie.steelplate.render.Canvas;
 
 public class PowerUp extends DownMovingEntity {
-	private static final long serialVersionUID = 0;
-	
 	private static final int SHIELD = 0;
 	private static final int STAR = 1;
 	private static final int RAPID_FIRE = 2;

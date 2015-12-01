@@ -11,7 +11,8 @@ import com.redmintie.steelplate.util.data.DataObject;
 import com.redmintie.steelplate.util.data.DataUtil;
 
 public class Entity implements Iterable<Entity>, DataObject {
-	private static final long serialVersionUID = DataUtil.generateHeader("STLPLT", "ENTITY");
+	private static final long HEADER = DataUtil.generateHeader("STLPLT", "ENTITY");
+	private static final int SIZE = 24;
 	
 	public Point position = new Point();
 	public double angle;
@@ -29,15 +30,15 @@ public class Entity implements Iterable<Entity>, DataObject {
 	
 	@Override
 	public long getHeader() {
-		return serialVersionUID;
+		return HEADER;
 	}
 	@Override
 	public int getMinSize() {
-		return getSize();
+		return SIZE;
 	}
 	@Override
 	public int getSize() {
-		return 24;
+		return SIZE;
 	}
 	@Override
 	public void writeData(DataOutput out) throws IOException {

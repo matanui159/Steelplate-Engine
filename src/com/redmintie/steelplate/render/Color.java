@@ -8,7 +8,8 @@ import com.redmintie.steelplate.util.data.DataObject;
 import com.redmintie.steelplate.util.data.DataUtil;
 
 public class Color implements DataObject {
-	private static final long serialVersionUID = DataUtil.generateHeader("STLPLT", "COLORX");
+	private static final long HEADER = DataUtil.generateHeader("STLPLT", "COLORX");
+	private static final int SIZE = 4;
 	
 	// GENERATED CODE BEGINS HERE
 	public static final Color WHITE = new Color(255, 255, 255);
@@ -59,15 +60,15 @@ public class Color implements DataObject {
 	}
 	@Override
 	public long getHeader() {
-		return serialVersionUID;
+		return HEADER;
 	}
 	@Override
 	public int getMinSize() {
-		return getSize();
+		return SIZE;
 	}
 	@Override
 	public int getSize() {
-		return 4;
+		return SIZE;
 	}
 	@Override
 	public void writeData(DataOutput out) throws IOException {

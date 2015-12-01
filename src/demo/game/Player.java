@@ -14,8 +14,6 @@ import com.redmintie.steelplate.util.data.DataStorage;
 import com.redmintie.steelplate.util.ease.EaseOut;
 
 public class Player extends Entity {
-	private static final long serialVersionUID = 0;
-	
 	private EaseOut ease = new EaseOut(100, -100, 1, 2);
 	private Point buffer = new Point();
 	
