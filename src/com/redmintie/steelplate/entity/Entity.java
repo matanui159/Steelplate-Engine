@@ -32,30 +32,22 @@ public class Entity implements Iterable<Entity>, DataObject {
 		return serialVersionUID;
 	}
 	@Override
+	public int getMinSize() {
+		return getSize();
+	}
+	@Override
 	public int getSize() {
-		return 33;
+		return 24;
 	}
 	@Override
 	public void writeData(DataOutput out) throws IOException {
 		position.writeData(out);
 		out.writeDouble(angle);
-		out.writeInt(width);
-		out.writeInt(height);
-		out.writeBoolean(relative);
 	}
 	@Override
 	public void readData(DataInput in, int size) throws IOException {
-		if (size < 33) {
-			throw new IOException("Size too small.");
-		}
 		position.readData(in, 16);
 		angle = in.readDouble();
-		width = in.readInt();
-		height = in.readInt();
-		relative = in.readBoolean();
-		if (size > 33) {
-			in.skipBytes(size - 33);
-		}
 	}
 	public boolean testOverlap(Entity other) {
 		double x = getTrueX();

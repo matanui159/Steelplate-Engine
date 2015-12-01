@@ -62,6 +62,10 @@ public class Color implements DataObject {
 		return serialVersionUID;
 	}
 	@Override
+	public int getMinSize() {
+		return getSize();
+	}
+	@Override
 	public int getSize() {
 		return 4;
 	}
@@ -74,16 +78,10 @@ public class Color implements DataObject {
 	}
 	@Override
 	public void readData(DataInput in, int size) throws IOException {
-		if (size < 4) {
-			throw new IOException("Size to0 small.");
-		}
 		red = in.readUnsignedByte();
 		green = in.readUnsignedByte();
 		blue = in.readUnsignedByte();
 		alpha = in.readUnsignedByte();
-		if (size > 4) {
-			in.skipBytes(size - 4);
-		}
 	}
 	public void setRed(int red) {
 		this.red = red;

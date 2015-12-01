@@ -36,6 +36,9 @@ public class DataPacket {
 		if (header != result.getHeader()) {
 			throw new IOException("Incorrect header.");
 		}
+		if (size < result.getMinSize()) {
+			throw new IOException("Not enough data.");
+		}
 		in.reset();
 		result.readData(in, size);
 		return result;

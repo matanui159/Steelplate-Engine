@@ -47,6 +47,10 @@ public class Point implements DataObject {
 		return serialVersionUID;
 	}
 	@Override
+	public int getMinSize() {
+		return getSize();
+	}
+	@Override
 	public int getSize() {
 		return 16;
 	}
@@ -57,14 +61,8 @@ public class Point implements DataObject {
 	}
 	@Override
 	public void readData(DataInput in, int size) throws IOException {
-		if (size < 4) {
-			throw new IOException("Size to small.");
-		}
 		x = in.readDouble();
 		y = in.readDouble();
-		if (size > 16) {
-			in.skipBytes(size - 16);
-		}
 	}
 	public Point set(double x, double y) {
 		this.x = x;

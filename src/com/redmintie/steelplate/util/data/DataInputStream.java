@@ -13,11 +13,19 @@ public class DataInputStream implements AutoCloseable {
 	}
 	public <T extends DataObject> T readDataObject(T result) throws IOException {
 		long header = stream.readLong();
+		int size = (int)(header & 0xFFFF);
 		if (header >>> 16 != result.getHeader()) {
-			stream.skipBytes((int)(header & 0xFFFF));
+			stream.skipBytes(size);
 			throw new IOException("Incorrect header.");
 		}
-		result.readData(stream, (int)(header & 0xFFFF));
+		if (size < result.getMinSize()) {
+			throw new IOException("Not enough data.");
+		}
+		result.readData(stream, size);
+		int s = result.getSize();
+		if (s < size) {
+			stream.skipBytes(size - s);
+		}
 		return result;
 	}
 	@Override
