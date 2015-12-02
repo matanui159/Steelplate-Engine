@@ -1,6 +1,7 @@
 package com.redmintie.steelplate.net;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 
 import com.redmintie.steelplate.net.event.ServerAcceptEvent;
@@ -13,16 +14,18 @@ public class Server {
 	MappedArray<Client> clients = new MappedArray<Client>();
 	private MappedArray<ServerListener> listeners = new MappedArray<ServerListener>();
 	private MappedArray<ServerAcceptEvent> events = new MappedArray<ServerAcceptEvent>();
+	private InetAddress address;
 	
 	public Server(int port) throws IOException {
 		socket = new ServerSocket(port);
-		new ServerService();
+		address = InetAddress.getLoopbackAddress();
+		new ServerService().start();
 	}
 	public Server() throws IOException {
-		socket = new ServerSocket();
+		this(0);
 	}
 	public String getLocalAddress() {
-		return socket.getInetAddress().getHostName();
+		return address.getHostAddress();
 	}
 	public int getLocalPort() {
 		return socket.getLocalPort();

@@ -5,7 +5,7 @@ import java.io.DataInput;
 import java.io.IOException;
 
 public class DataPacket {
-	private static byte[] data;
+	private static byte[] data = new byte[65536];
 	private static int point;
 	
 	private java.io.DataInputStream in;
@@ -14,13 +14,10 @@ public class DataPacket {
 	private int size;
 	public DataPacket(DataInput in) throws IOException {
 		header = in.readLong();
-		size = (int)(header & 0xFFFFF);
+		size = (int)(header & 0xFFFF);
 		header >>>= 16;
 		
 		synchronized (data) {
-			if (data == null) {
-				data = new byte[65536];
-			}
 			offset = point;
 			point += size;
 			if (point > data.length) {

@@ -50,16 +50,16 @@ public class Client {
 		socket.setTcpNoDelay(true);
 		this.in = new DataInputStream(socket.getInputStream());
 		this.out = new DataOutputStream(socket.getOutputStream());
-		new ClientService();
+		new ClientService().start();
 	}
 	public String getLocalAddress() {
-		return socket.getLocalAddress().getHostName();
+		return socket.getLocalAddress().getHostAddress();
 	}
 	public int getLocalPort() {
 		return socket.getLocalPort();
 	}
 	public String getAddress() {
-		return socket.getInetAddress().getHostName();
+		return socket.getInetAddress().getHostAddress();
 	}
 	public int getPort() {
 		return socket.getPort();
@@ -95,12 +95,10 @@ public class Client {
 			super("Client Service", new MultiThreadAdapter() {
 				@Override
 				public void actionFailed(Exception ex) {
-					if (!socket.isClosed()) {
-						try {
-							close();
-						} catch (IOException e) {}
-						events.add(new ClientDisconnectEvent(Client.this, ex));
-					}
+					try {
+						close();
+					} catch (IOException e) {}
+					events.add(new ClientDisconnectEvent(Client.this, ex));
 				}
 			});
 		}
