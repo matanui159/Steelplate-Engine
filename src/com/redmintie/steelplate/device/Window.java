@@ -10,6 +10,12 @@ import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Font;
 import com.redmintie.steelplate.render.Image;
 
+/**
+ * A window is a device for managing the window and creating canvas's, fonts and images
+ * and accessing the keyboard and mouse.
+ * This will not be documented as it is part of the internal library
+ * and is not designed for public use.
+ */
 public abstract class Window implements Device {
 	private long time = -1;
 	private Image background;
