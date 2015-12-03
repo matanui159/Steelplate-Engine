@@ -21,6 +21,7 @@ public class Client {
 	private Server server;
 	private MappedArray<NetEvent> events = new MappedArray<NetEvent>();
 	private MappedArray<ClientListener> listeners = new MappedArray<ClientListener>();
+	private boolean closed;
  	
 	public Client(String address) throws IOException {
 		String[] parts = address.split(":");
@@ -81,20 +82,24 @@ public class Client {
 			for (ClientListener listener : listeners) {
 				event.processEvent(listener);
 			}
+			if (server != null && event instanceof ClientDisconnectEvent) {
+				server.clients.remove(this);
+			}
 			events.remove(event);
 		}
 	}
 	public void close() throws IOException {
 		socket.close();
-		if (server != null) {
-			server.clients.remove(this);
-		}
+		closed = true;
 	}
 	private class ClientService extends MultiThreadService {
 		public ClientService() {
 			super("Client Service", new MultiThreadAdapter() {
 				@Override
 				public void actionFailed(Exception ex) {
+					if (closed) {
+						ex = null;
+					}
 					try {
 						close();
 					} catch (IOException e) {}
@@ -104,6 +109,7 @@ public class Client {
 		}
 		@Override
 		public void update() throws IOException {
+			System.out.println("UPDATE");
 			events.add(new ClientReceiveEvent(Client.this, in.readDataPacket()));
 		}
 		@Override

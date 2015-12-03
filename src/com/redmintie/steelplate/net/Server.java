@@ -18,7 +18,7 @@ public class Server {
 	
 	public Server(int port) throws IOException {
 		socket = new ServerSocket(port);
-		address = InetAddress.getLoopbackAddress();
+		address = InetAddress.getLocalHost();
 		new ServerService().start();
 	}
 	public Server() throws IOException {
