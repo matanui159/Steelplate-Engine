@@ -1,5 +1,8 @@
 package com.redmintie.steelplate.device.java;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JFrame;
 
 import com.redmintie.steelplate.input.Keyboard;
@@ -27,11 +30,7 @@ public class JavaKeyboard extends Keyboard {
 			}
 			@Override
 			public void keyReleased(java.awt.event.KeyEvent e) {
-				keys[e.getKeyCode()] = false;
-				KeyEvent event = createEvent(e);
-				for (KeyListener listener : listeners) {
-					listener.keyReleased(event);
-				}
+				JavaKeyboard.this.keyReleased(createEvent(e));
 			}
 			@Override
 			public void keyTyped(java.awt.event.KeyEvent e) {
@@ -41,6 +40,23 @@ public class JavaKeyboard extends Keyboard {
 				}
 			}
 		});
+		
+		frame.addWindowFocusListener(new WindowAdapter() {
+			@Override
+			public void windowLostFocus(WindowEvent e) {
+				for (int i = 0; i < keys.length; i++) {
+					if (keys[i]) {
+						keyReleased(new KeyEvent(i, KeyEvent.CHAR_UNDEFINED, false, 0));
+					}
+				}
+			}
+		});
+	}
+	private void keyReleased(KeyEvent event) {
+		keys[event.getKey()] = false;
+		for (KeyListener listener : listeners) {
+			listener.keyReleased(event);
+		}
 	}
 	@Override
 	public boolean isKeyDown(int key) {

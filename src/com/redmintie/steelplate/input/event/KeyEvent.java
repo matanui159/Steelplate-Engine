@@ -1,6 +1,8 @@
 package com.redmintie.steelplate.input.event;
 
 public class KeyEvent extends Event {
+	public static final char CHAR_UNDEFINED = 65535;
+	
 	private int key;
 	private char c;
 	private boolean down;
