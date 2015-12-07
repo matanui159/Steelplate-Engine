@@ -41,7 +41,6 @@ public class Demo extends Game {
 	}
 	@Override
 	public void init() {
-		
 	}
 	@Override
 	public void update(double delta) {
@@ -60,8 +59,9 @@ public class Demo extends Game {
 	@Override
 	public void close() {
 		try {
-			client.close();
-			if (server != null) {
+			if (server == null) {
+				client.close();
+			} else {
 				server.close();
 			}
 		} catch (IOException ex) {

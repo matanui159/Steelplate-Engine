@@ -15,11 +15,13 @@ public class Server {
 	private MappedArray<ServerListener> listeners = new MappedArray<ServerListener>();
 	private MappedArray<ServerAcceptEvent> events = new MappedArray<ServerAcceptEvent>();
 	private InetAddress address;
+	private ServerService service;
 	
 	public Server(int port) throws IOException {
 		socket = new ServerSocket(port);
 		address = InetAddress.getLocalHost();
-		new ServerService().start();
+		service = new ServerService();
+		service.start();
 	}
 	public Server() throws IOException {
 		this(0);
@@ -51,6 +53,9 @@ public class Server {
 		}
 	}
 	public void close() throws IOException {
+		for (Client client : clients) {
+			client.close();
+		}
 		socket.close();
 	}
 	private class ServerService extends MultiThreadService {
@@ -62,7 +67,7 @@ public class Server {
 			events.add(new ServerAcceptEvent(new Client(Server.this, socket.accept())));
 		}
 		@Override
-		public void eventCalled(int event) {
+		public void eventCalled(int event) throws IOException {
 		}
 	}
 }

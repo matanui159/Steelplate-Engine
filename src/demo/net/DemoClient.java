@@ -30,8 +30,13 @@ public class DemoClient extends Client {
 				}
 			}
 			@Override
-			public void clientDisconnected(Client client, Exception ex) {
+			public void clientDisconnected(Client client) {
 				Game.getGameInstance().close();
+			}
+			@Override
+			public void clientFailed(Client client, Exception ex) {
+				ex.printStackTrace();
+				clientDisconnected(client);
 			}
 		});
 	}

@@ -8,6 +8,9 @@ public class ClientAdapter implements ClientListener {
 	public void packetRecieved(Client client, DataPacket packet) {
 	}
 	@Override
-	public void clientDisconnected(Client client, Exception ex) {
+	public void clientDisconnected(Client client) {
+	}
+	@Override
+	public void clientFailed(Client client, Exception ex) {
 	}
 }

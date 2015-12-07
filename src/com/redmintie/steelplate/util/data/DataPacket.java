@@ -12,10 +12,9 @@ public class DataPacket {
 	private int offset;
 	private long header;
 	private int size;
-	public DataPacket(DataInput in) throws IOException {
-		header = in.readLong();
+	public DataPacket(long header, DataInput in) throws IOException {
+		this.header = header >>> 16;
 		size = (int)(header & 0xFFFF);
-		header >>>= 16;
 		
 		synchronized (data) {
 			offset = point;

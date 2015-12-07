@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import com.redmintie.steelplate.net.event.ClientDisconnectEvent;
+import com.redmintie.steelplate.net.event.ClientFailureEvent;
 import com.redmintie.steelplate.net.event.ClientListener;
 import com.redmintie.steelplate.net.event.ClientReceiveEvent;
 import com.redmintie.steelplate.net.event.NetEvent;
@@ -11,16 +12,21 @@ import com.redmintie.steelplate.util.array.MappedArray;
 import com.redmintie.steelplate.util.data.DataInputStream;
 import com.redmintie.steelplate.util.data.DataObject;
 import com.redmintie.steelplate.util.data.DataOutputStream;
+import com.redmintie.steelplate.util.data.DataPacket;
+import com.redmintie.steelplate.util.data.DataUtil;
 import com.redmintie.steelplate.util.multithread.MultiThreadAdapter;
 import com.redmintie.steelplate.util.multithread.MultiThreadService;
 
 public class Client {
+	private static final long CLOSE = DataUtil.generateHeader("STLPLT", "CLOSE ") << 16;
+	
 	private Socket socket;
 	private DataInputStream in;
 	private DataOutputStream out;
 	private Server server;
 	private MappedArray<NetEvent> events = new MappedArray<NetEvent>();
 	private MappedArray<ClientListener> listeners = new MappedArray<ClientListener>();
+	private ClientService service;
 	private boolean closed;
  	
 	public Client(String address) throws IOException {
@@ -51,7 +57,8 @@ public class Client {
 		socket.setTcpNoDelay(true);
 		this.in = new DataInputStream(socket.getInputStream());
 		this.out = new DataOutputStream(socket.getOutputStream());
-		new ClientService().start();
+		service = new ClientService();
+		service.start();
 	}
 	public String getLocalAddress() {
 		return socket.getLocalAddress().getHostAddress();
@@ -89,28 +96,37 @@ public class Client {
 		}
 	}
 	public void close() throws IOException {
-		socket.close();
-		closed = true;
+		if (!closed) {
+			out.getDataOutput().writeLong(CLOSE);
+			socket.close();
+			closed = true;
+		}
 	}
 	private class ClientService extends MultiThreadService {
 		public ClientService() {
 			super("Client Service", new MultiThreadAdapter() {
 				@Override
 				public void actionFailed(Exception ex) {
-					if (closed) {
-						ex = null;
+					if (!closed) {
+						events.add(new ClientFailureEvent(Client.this, ex));
+						try {
+							close();
+						} catch (IOException e) {}
 					}
-					try {
-						close();
-					} catch (IOException e) {}
-					events.add(new ClientDisconnectEvent(Client.this, ex));
 				}
 			});
 		}
 		@Override
 		public void update() throws IOException {
-			System.out.println("UPDATE");
-			events.add(new ClientReceiveEvent(Client.this, in.readDataPacket()));
+			long header = in.getDataInput().readLong();
+			if (header == CLOSE) {
+				socket.close();
+				closed = true;
+				events.add(new ClientDisconnectEvent(Client.this));
+				end();
+			} else {
+				events.add(new ClientReceiveEvent(Client.this, new DataPacket(header, in.getDataInput())));
+			}
 		}
 		@Override
 		public void eventCalled(int event) {

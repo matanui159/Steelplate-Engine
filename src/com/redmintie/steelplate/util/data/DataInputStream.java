@@ -1,5 +1,6 @@
 package com.redmintie.steelplate.util.data;
 
+import java.io.DataInput;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -8,8 +9,11 @@ public class DataInputStream implements AutoCloseable {
 	public DataInputStream(InputStream stream) {
 		this.stream = new java.io.DataInputStream(stream);
 	}
+	public DataInput getDataInput() {
+		return stream;
+	}
 	public DataPacket readDataPacket() throws IOException {
-		return new DataPacket(stream);
+		return new DataPacket(stream.readLong(), stream);
 	}
 	public <T extends DataObject> T readDataObject(T result) throws IOException {
 		long header = stream.readLong();
