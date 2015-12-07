@@ -7,7 +7,9 @@ public class View {
 	private SceneTransition transition;
 	public void setScene(Scene scene) {
 		if (transition == null) {
+			this.scene.end();
 			this.scene = scene;
+			scene.start();
 		} else {
 			transition.last = this.scene;
 			transition.next = scene;

@@ -50,6 +50,12 @@ public class Entity implements Iterable<Entity>, DataObject {
 		position.readData(in, 16);
 		angle = in.readDouble();
 	}
+	public boolean testPoint(double x, double y) {
+		double ox = getTrueX();
+		double oy = getTrueY();
+		return x < ox + width / 2 && x > ox - width / 2
+				&& y < oy + height / 2 && y > oy - height / 2;
+	}
 	public boolean testOverlap(Entity other) {
 		double x = getTrueX();
 		double y = getTrueY();
