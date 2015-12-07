@@ -8,7 +8,7 @@ import com.redmintie.steelplate.util.data.DataObject;
 import com.redmintie.steelplate.util.data.DataUtil;
 
 public class Color implements DataObject {
-	private static final long HEADER = DataUtil.generateHeader("STLPLT", "COLORX");
+	private static final long HEADER = DataUtil.generateHeader("STLPLT", "COLOR ");
 	private static final int SIZE = 4;
 	
 	// GENERATED CODE BEGINS HERE

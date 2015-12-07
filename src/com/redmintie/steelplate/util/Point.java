@@ -8,7 +8,7 @@ import com.redmintie.steelplate.util.data.DataObject;
 import com.redmintie.steelplate.util.data.DataUtil;
 
 public class Point implements DataObject {
-	private static final long HEADER = DataUtil.generateHeader("STLPLT", "POINTX");
+	private static final long HEADER = DataUtil.generateHeader("STLPLT", "POINT ");
 	private static final int SIZE = 16;
 	
 	private transient Point result;
