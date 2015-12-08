@@ -13,6 +13,6 @@ public abstract class SceneTransition implements Scene {
 	public void finish() {
 		last.end();
 		view.scene = next;
-		next.start();
+		next.init();
 	}
 }

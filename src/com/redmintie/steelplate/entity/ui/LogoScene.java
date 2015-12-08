@@ -36,7 +36,7 @@ public class LogoScene implements Scene {
 		this.next = next;
 	}
 	@Override
-	public void start() {
+	public void init() {
 		Mouse.getMouse().addMouseListener(listener);
 	}
 	@Override

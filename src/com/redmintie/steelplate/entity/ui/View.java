@@ -9,7 +9,7 @@ public class View {
 		if (transition == null) {
 			this.scene.end();
 			this.scene = scene;
-			scene.start();
+			scene.init();
 		} else {
 			transition.last = this.scene;
 			transition.next = scene;
