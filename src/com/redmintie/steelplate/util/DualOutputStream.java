@@ -6,6 +6,10 @@ import java.io.OutputStream;
 public class DualOutputStream extends OutputStream {
 	private OutputStream a;
 	private OutputStream b;
+	public DualOutputStream(OutputStream a, OutputStream b) {
+		this.a = a;
+		this.b = b;
+	}
 	@Override
 	public void write(int b) throws IOException {
 		a.write(b);
