@@ -59,6 +59,9 @@ public abstract class Window implements Device {
 	public abstract void setSize(int width, int height);
 	public abstract int getWidth();
 	public abstract int getHeight();
+	public abstract void setMaximized(boolean max);
+	public abstract boolean isMaximized();
+	public abstract void setFullscreen(boolean fullscreen);
 	public void keepBackground(boolean keep) {
 		if (background != null) {
 			background.destroy();

@@ -52,6 +52,7 @@ public abstract class Game {
 	
 	private Window window;
 	private String title;
+	private boolean fullscreen;
 	private boolean keep;
 	
 	/**
@@ -206,6 +207,22 @@ public abstract class Game {
 	 */
 	public int getHeight() {
 		return window.getHeight();
+	}
+	
+	public void setMaximized(boolean max) {
+		window.setMaximized(max);
+	}
+	
+	public boolean isMaximized() {
+		return window.isMaximized();
+	}
+	
+	public void setFullscreen(boolean fullscreen) {
+		window.setFullscreen(this.fullscreen = fullscreen);
+	}
+	
+	public boolean isFullscreen() {
+		return fullscreen;
 	}
 	
 	/**
