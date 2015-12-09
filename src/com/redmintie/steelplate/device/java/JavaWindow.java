@@ -40,7 +40,7 @@ public class JavaWindow extends Window {
 	private JavaCanvas canvas;
 	private boolean logo = true;
 	public JavaWindow() {
-		frame.add(panel);
+		frame.setContentPane(panel);
 		frame.setLocationByPlatform(true);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new WindowAdapter() {
@@ -95,6 +95,7 @@ public class JavaWindow extends Window {
 	private void setUndecorated(boolean undecor) {
 		if (frame.isUndecorated() != undecor) {
 			JFrame next = new JFrame();
+			next.setContentPane(panel);
 			next.setTitle(frame.getTitle());
 			next.setSize(frame.getWidth(), frame.getHeight());
 			next.setIconImage(frame.getIconImage());
