@@ -4,6 +4,9 @@ import java.io.IOException;
 import com.redmintie.steelplate.core.DeviceException;
 import com.redmintie.steelplate.core.Game;
 import com.redmintie.steelplate.entity.Entity;
+import com.redmintie.steelplate.input.Keyboard;
+import com.redmintie.steelplate.input.event.KeyAdapter;
+import com.redmintie.steelplate.input.event.KeyEvent;
 import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
@@ -43,6 +46,15 @@ public class Demo extends Game {
 	
 	@Override
 	public void init() {
+		Keyboard.getKeyboard().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKey() == Keyboard.KEY_ESCAPE) {
+					close();
+				}
+			}
+		});
+		
 		try {
 			Sound song = Sound.loadSound("res/song.ogg", true);
 			song.setLoopEnabled(true);

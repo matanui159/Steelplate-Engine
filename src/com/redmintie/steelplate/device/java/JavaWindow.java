@@ -89,27 +89,9 @@ public class JavaWindow extends Window {
 	public int getHeight() {
 		return panel.getHeight();
 	}
-	private void setExtendedState(boolean max) {
-		frame.setExtendedState(max ? JFrame.MAXIMIZED_BOTH : JFrame.NORMAL);
-	}
-	private void setUndecorated(boolean undecor) {
-		if (frame.isUndecorated() != undecor) {
-			JFrame next = new JFrame();
-			next.setContentPane(panel);
-			next.setTitle(frame.getTitle());
-			next.setSize(frame.getWidth(), frame.getHeight());
-			next.setIconImage(frame.getIconImage());
-			next.setUndecorated(undecor);
-			next.setVisible(frame.isVisible());
-			JFrame old = frame;
-			frame = next;
-			old.dispose();
-		}
-	}
 	@Override
 	public void setMaximized(boolean max) {
-		setUndecorated(false);
-		setExtendedState(max);
+		frame.setExtendedState(max ? JFrame.MAXIMIZED_BOTH : JFrame.NORMAL);
 	}
 	@Override
 	public boolean isMaximized() {
@@ -117,8 +99,7 @@ public class JavaWindow extends Window {
 	}
 	@Override
 	public void setFullscreen(boolean fullscreen) {
-		setUndecorated(fullscreen);
-		setExtendedState(fullscreen);
+		throw new RuntimeException("Fullscreen is not currently implemented by the Java Device implementation.");
 	}
 	@Override
 	public void keepBackground(boolean keep) {
