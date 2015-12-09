@@ -55,7 +55,7 @@ public class JavaWindow extends Window {
 		return Game.TYPE_DESKTOP;
 	}
 	@Override
-	public void begin() {
+	public void start() {
 		frame.setVisible(true);
 		panel.repaint();
 	}

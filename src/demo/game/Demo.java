@@ -22,7 +22,7 @@ public class Demo extends Game {
 	}
 	public Demo() throws DeviceException {
 		setTitle("Space Shooter");
-		begin();
+		start();
 	}
 	
 	private double time;

@@ -35,7 +35,7 @@ public abstract class Window implements Device {
 		}
 	}
 	public abstract int getType();
-	public abstract void begin();
+	public abstract void start();
 	public abstract void loop();
 	public double getDelta() {
 		if (time == -1) {

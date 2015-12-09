@@ -17,7 +17,7 @@ public class Demo extends Game {
 	}
 	public Demo() throws Exception {
 		setTitle("UI Demo");
-		begin();
+		start();
 	}
 	private Image up;
 	private Image down;

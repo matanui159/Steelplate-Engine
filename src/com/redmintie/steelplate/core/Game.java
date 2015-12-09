@@ -94,8 +94,8 @@ public abstract class Game {
 	/**
 	 * Makes the window visible and starts the update/render loop.
 	 */
-	public void begin() {
-		window.begin();
+	public void start() {
+		window.start();
 		long start = System.nanoTime();
 		init();
 		long time = (System.nanoTime() - start) / (int)1e6;

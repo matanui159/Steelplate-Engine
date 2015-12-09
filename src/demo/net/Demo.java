@@ -32,12 +32,12 @@ public class Demo extends Game {
 		setTitle("Net Demo (server)");
 		server = new DemoServer();
 		client = new DemoClient("127.0.0.1:" + server.getLocalPort());
-		begin();
+		start();
 	}
 	public Demo(String address) throws DeviceException, IOException {
 		setTitle("Net Demo (client)");
 		client = new DemoClient(address);
-		begin();
+		start();
 	}
 	@Override
 	public void init() {
