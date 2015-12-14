@@ -12,7 +12,7 @@ import com.redmintie.steelplate.render.Canvas;
 import com.redmintie.steelplate.render.Color;
 import com.redmintie.steelplate.render.Image;
 
-public class LogoScene implements Scene {
+public class LogoScene extends Scene {
 	private Image logo;
 	private Color background;
 	private String link;
@@ -40,10 +40,10 @@ public class LogoScene implements Scene {
 		Mouse.getMouse().addMouseListener(listener);
 	}
 	@Override
-	public void update(View view, double delta) {
+	public void update(double delta) {
 		t += delta;
 		if (t >= time) {
-			view.setScene(next);
+			getView().setScene(next);
 		}
 	}
 	@Override

@@ -7,17 +7,22 @@ public class View {
 	private SceneTransition transition;
 	public void setScene(Scene scene) {
 		if (transition == null) {
-			if (this.scene != null) {
-				this.scene.end();
-			}
-			this.scene = scene;
-			if (scene != null) {
-				scene.init();
-			}
+			setRawScene(scene, true);
 		} else {
 			transition.last = this.scene;
 			transition.next = scene;
-			this.scene = transition;
+			setRawScene(transition, false);
+		}
+	}
+	void setRawScene(Scene scene, boolean end) {
+		if (end && this.scene != null) {
+			this.scene.end();
+			this.scene.view = null;
+		}
+		this.scene = scene;
+		if (scene != null) {
+			scene.view = this;
+			scene.init();
 		}
 	}
 	public Scene getScene() {
@@ -28,6 +33,9 @@ public class View {
 		}
 	}
 	public void setTransition(SceneTransition transition) {
+		if (this.transition != null) {
+			this.transition.view = null;
+		}
 		this.transition = transition;
 		if (transition != null) {
 			transition.view = this;
@@ -38,7 +46,7 @@ public class View {
 	}
 	public void update(double delta) {
 		if (scene != null) {
-			scene.update(this, delta);
+			scene.update(delta);
 		}
 	}
 	public void draw(Canvas canvas) {

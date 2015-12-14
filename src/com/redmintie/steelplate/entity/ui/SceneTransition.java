@@ -1,7 +1,6 @@
 package com.redmintie.steelplate.entity.ui;
 
-public abstract class SceneTransition implements Scene {
-	View view;
+public abstract class SceneTransition extends Scene {
 	Scene last;
 	Scene next;
 	public Scene getLastScene(Scene scene) {
@@ -11,12 +10,8 @@ public abstract class SceneTransition implements Scene {
 		return next;
 	}
 	public void finish() {
-		if (last != null) {
-			last.end();
-		}
-		view.scene = next;
-		if (next != null) {
-			next.init();
-		}
+		last.end();
+		last.view = null;
+		view.setRawScene(next, true);
 	}
 }

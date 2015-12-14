@@ -2,9 +2,13 @@ package com.redmintie.steelplate.entity.ui;
 
 import com.redmintie.steelplate.render.Canvas;
 
-public interface Scene {
-	public void init();
-	public void update(View view, double delta);
-	public void draw(Canvas canvas);
-	public void end();
+public abstract class Scene {
+	View view;
+	public View getView() {
+		return view;
+	}
+	public abstract void init();
+	public abstract void update(double delta);
+	public abstract void draw(Canvas canvas);
+	public abstract void end();
 }
